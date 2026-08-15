@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import {Brand} from '../components/Brand';
-import {DeveloperBar} from '../components/DeveloperBar';
 import {isSupabaseConfigured} from '../lib/config';
 
 export default function Home(){
@@ -20,6 +19,6 @@ export default function Home(){
    </div>
   </section>
   <section className="featureGrid featureStrip"><article><b>Audit</b><p>Evidence-first analysis</p></article><article><b>Discover</b><p>Direct competitor validation</p></article><article><b>Benchmark</b><p>Decision experience comparison</p></article><article><b>Grow</b><p>Prioritized opportunities</p></article></section>
-  <footer className="publicFooter"><DeveloperBar/></footer>
+  
  </main>
 }

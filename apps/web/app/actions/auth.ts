@@ -2,6 +2,7 @@
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '../../lib/supabase/server';
 import { isSupabaseConfigured } from '../../lib/config';
+import { isRootEmail } from '../../lib/admin';
 
 function enc(v:string){return encodeURIComponent(v)}
 export async function signIn(formData: FormData){
@@ -9,8 +10,9 @@ export async function signIn(formData: FormData){
   const email=String(formData.get('email')||'').trim(); const password=String(formData.get('password')||'');
   if(!email||!password) redirect('/login?error='+enc('Email and password are required.'));
   const supabase=await createSupabaseServerClient();
-  const {error}=await supabase.auth.signInWithPassword({email,password});
+  const {data,error}=await supabase.auth.signInWithPassword({email,password});
   if(error) redirect('/login?error='+enc(error.message));
+  if(isRootEmail(data.user?.email)) redirect('/admin');
   redirect('/dashboard');
 }
 export async function signUp(formData: FormData){
@@ -20,7 +22,7 @@ export async function signUp(formData: FormData){
   const supabase=await createSupabaseServerClient();
   const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name:name}}});
   if(error) redirect('/signup?error='+enc(error.message));
-  if(data.session) redirect('/dashboard');
+  if(data.session){if(isRootEmail(data.user?.email))redirect('/admin');redirect('/dashboard')}
   redirect('/login?message='+enc('Account created. Check your email to confirm your account, then sign in.'));
 }
 export async function signOut(){const supabase=await createSupabaseServerClient(); await supabase.auth.signOut(); redirect('/login');}
