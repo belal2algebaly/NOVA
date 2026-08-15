@@ -16,7 +16,7 @@ export async function signIn(formData: FormData){
 export async function signUp(formData: FormData){
   if(!isSupabaseConfigured) redirect('/signup?error='+enc('Supabase is not configured yet. Add the environment variables first.'));
   const name=String(formData.get('name')||'').trim(); const email=String(formData.get('email')||'').trim(); const password=String(formData.get('password')||'');
-  if(!name||!email||password.length<8) redirect('/signup?error='+enc('Enter your name, email, and a password of at least 8 characters.'));
+  if(!name||!email||password.length<6) redirect('/signup?error='+enc('Enter your name, email, and a password of at least 6 characters.'));
   const supabase=await createSupabaseServerClient();
   const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name:name}}});
   if(error) redirect('/signup?error='+enc(error.message));

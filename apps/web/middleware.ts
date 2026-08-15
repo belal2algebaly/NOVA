@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
     }
   });
   const {data:{user}}=await supabase.auth.getUser();
-  const protectedPath = ['/dashboard','/projects','/settings'].some(p=>request.nextUrl.pathname.startsWith(p));
+  const protectedPath = ['/dashboard','/projects','/settings','/admin'].some(p=>request.nextUrl.pathname.startsWith(p));
   if (protectedPath && !user){
     const login=new URL('/login',request.url); login.searchParams.set('next',request.nextUrl.pathname); return NextResponse.redirect(login);
   }
