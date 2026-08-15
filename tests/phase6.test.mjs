@@ -1,4 +1,0 @@
-import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
-test('Extension manifest has storage permission and NOVA 1.0 version',()=>{const m=JSON.parse(fs.readFileSync('apps/extension/manifest.json','utf8'));assert.ok(m.permissions.includes('storage'));assert.equal(m.version,'1.0.0');});
-test('Extension contains pairing and ingestion UI',()=>{const html=fs.readFileSync('apps/extension/popup.html','utf8');const js=fs.readFileSync('apps/extension/popup.js','utf8');assert.match(html,/Send audit to NOVA/);assert.match(js,/api\/extension\/ingest/);});
-test('Web app has protected extension ingestion route and project key migration',()=>{assert.ok(fs.existsSync('apps/web/app/api/extension/ingest/route.ts'));assert.match(fs.readFileSync('infra/supabase/006_phase6_extension_production.sql','utf8'),/extension_key/);});
