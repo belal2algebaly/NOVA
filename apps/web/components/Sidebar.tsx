@@ -4,6 +4,7 @@ import { Brand } from './Brand';
 import { signOut } from '../app/actions/auth';
 import { getCurrentUserRole } from '../lib/admin';
 import {NavLinks} from './NavLinks';
+import {ChatWithNOVA} from './ChatWithNOVA';
 
 export async function Sidebar({projectId}:{projectId?:string}){
  const {user,isSuperAdmin}=await getCurrentUserRole();
@@ -19,6 +20,7 @@ export async function Sidebar({projectId}:{projectId?:string}){
    {label:'Research',href:`${base}/research`,icon:'⌕'},
    {label:'Monitoring',href:`${base}/monitoring`,icon:'◌'},
    {label:'Products',href:`${base}/products`,icon:'▥'},
+   {label:'Buyer Persona',href:`${base}/persona`,icon:'◉',badge:'AI'},
    {label:'NOVA Analyst',href:`${base}/analyst`,icon:'✧',badge:'AI'}]},
   {label:'Output',items:[
    {label:'Notifications',href:`${base}/notifications`,icon:'◍'},
@@ -36,5 +38,6 @@ export async function Sidebar({projectId}:{projectId?:string}){
    {user&&<div className="userMini"><span>{(user.email||'N').slice(0,1).toUpperCase()}</span><div><b>{isSuperAdmin?'Super Admin':'NOVA User'}</b><small>{user.email}</small></div></div>}
    <div className="sidebarUtility"><Link href="/settings">Settings</Link><form action={signOut}><ActionButton className="linkButton" pendingLabel="Signing out…">Sign out</ActionButton></form></div>
   </div>
+ {projectId&&<ChatWithNOVA projectId={projectId}/>}
  </aside>
 }

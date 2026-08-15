@@ -44,9 +44,15 @@ export default async function Competitors({
     ? (project as any).stores[0]
     : (project as any).stores;
   const profile = store?.profile || {};
-  const competitors = [...((project as any).competitors || [])].sort(
-    (a: any, b: any) => (b.match_score || 0) - (a.match_score || 0),
-  );
+  const allCompetitors = [...((project as any).competitors || [])];
+  const competitors = allCompetitors
+    .filter((c: any) => {
+      const source = String(c.source || '');
+      const manual = source === 'manual' || source.startsWith('manual:');
+      const verifiedAutomatic = source.startsWith('auto:') && c.status === 'validated' && c.classification === 'Local Direct';
+      return manual || verifiedAutomatic;
+    })
+    .sort((a: any, b: any) => (b.match_score || 0) - (a.match_score || 0));
   const refresh = refreshStoreProfile.bind(null, id);
   const localCount = competitors.filter((c: any) =>
     String(c.classification || '').toLowerCase().includes('local'),
@@ -100,7 +106,7 @@ export default async function Competitors({
         {q.profile && <p className="alert success">Store understanding refreshed</p>}
         {q.discovered && (
           <p className="alert success" data-discovery-feedback>
-            Discovery completed. Candidates were validated against market, category, pricing and language signals
+            Discovery completed. Only competitors that passed the strict Local Direct evidence gate were saved
           </p>
         )}
 

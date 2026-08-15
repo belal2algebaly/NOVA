@@ -70,3 +70,8 @@ This build includes a five-phase radical UI architecture pass: sectioned active 
 
 ## NOVA AI Layer V1
 Gemini primary + Groq fallback + NOVA deterministic fallback. See `docs/NOVA-AI-LAYER-V1.md`.
+
+
+## NOVA 1.6 — AI Operating System
+
+Adds project-wide Chat with NOVA, evidence-based Buyer Persona intelligence, AI second-pass competitor verification and a unified project AI context. Run `infra/supabase/012_ai_os_persona_chat.sql` after migration 011. See `docs/NOVA-1.6-AI-OPERATING-SYSTEM-50-PHASES.md` and `docs/NOVA-1.6-RELEASE-NOTES.md`.
