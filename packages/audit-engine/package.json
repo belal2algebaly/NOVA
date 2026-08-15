@@ -1,0 +1,1 @@
+{"name":"@nova/audit-engine","version":"1.0.0-phase.2","type":"module","dependencies":{"@nova/contracts":"1.0.0-phase.2"},"exports":"./src/index.js"}
