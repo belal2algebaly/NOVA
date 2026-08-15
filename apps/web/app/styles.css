@@ -141,3 +141,24 @@ body{padding-bottom:62px}
 .developerBar,.authDeveloper,.publicFooter .developerBar{display:none!important}
 @media(max-width:780px){body{padding-bottom:58px}.developerDock{height:58px}.developerDockInner{padding:0 14px;grid-template-columns:1fr auto}.developerCraft{display:none}.developerSignature div{display:block}.developerSignature div span,.developerSignature strong{display:block}.developerSignature div span{font-size:7px;margin-bottom:1px}.developerSignature strong{font-size:10px}.developerSocials a{width:29px;height:29px}}
 @media(prefers-reduced-motion:reduce){.developerDockShine{animation:none}.developerSocials a{transition:none}}
+
+/* Phase 11 — contrast, auth providers and rotating premium developer dock */
+:root{--text:#20163d;--muted:#5f5571;--line:#ddd6ea;--panel2:#faf8fd}
+body{color:var(--text);background:linear-gradient(180deg,#fcfbff 0%,#f7f5fb 100%)}
+.muted,.tagline,.metric span,.metric small,.panelNote,.projectCard>p,.adminGrow small,.adminProject small,.facts dt,.historyRow span,.finding p{color:#62586f}
+.workspace h1,.panel h2,.pageHeader h1,.adminIdentity b{color:#241842}
+.adminTable th{color:#5a5068;background:#f8f6fb}.adminTable td{color:#3f354d}.adminIdentity small{color:#665c73}.compactCopy{color:#665b74}.pill,.meta span{color:#625775}
+.metric strong{color:#38236c}.metric span{font-weight:590}.metric small{font-weight:480}.eyebrow{color:#6841e8;font-weight:760}
+.adminHero .muted{color:#615570}.adminTable tbody tr:hover{background:#f8f5fd}.adminTableWrap{border-color:#ddd5e9}
+.authHeading p:not(.eyebrow){color:#665b78}.form label{color:#493d5f}.form small,.authFoot,.activationHint{color:#6e647c}.authFoot a{color:#6038d8;font-weight:650}
+.googleButton{height:46px;border:1px solid #d9d2e5;background:#fff;color:#2c2437;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;font-weight:650;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease}.googleButton svg{width:18px;height:18px;flex:0 0 auto}.googleButton:hover{background:#fbfaff;border-color:#bfb0df;transform:translateY(-1px);box-shadow:0 7px 18px rgba(64,41,104,.07)}.googleButton:active{transform:translateY(0) scale(.99)}
+.authDivider{height:40px;display:flex;align-items:center;gap:12px;color:#7a7088;font-size:10px;text-transform:uppercase;letter-spacing:.7px}.authDivider:before,.authDivider:after{content:"";height:1px;background:#e5dfeb;flex:1}.authDivider span{white-space:nowrap}.activationHint{font-size:10px;line-height:1.5;text-align:center;margin:14px 0 -4px}
+.alert.success{color:#176d4f;background:#f1faf6;border-color:#cdebdc}.alert.error{color:#a63d57}
+.developerDock{height:64px;background:rgba(255,255,255,.95);border-top-color:#ded6eb;box-shadow:0 -5px 20px rgba(48,29,82,.045)}
+.developerDockInner{max-width:1540px;grid-template-columns:220px minmax(280px,1fr) 220px}
+.developerSignature div span{color:#756986;font-size:8px;letter-spacing:1px}.developerSignature strong{color:#302244;font-weight:650}.developerMark{box-shadow:none;background:linear-gradient(145deg,#6f45ff,#8b69f4)}
+.developerRotator{position:relative;justify-self:center;width:min(100%,560px);height:24px;overflow:hidden;text-align:center;color:#42374f;font-size:11px;letter-spacing:.08px}.developerMessage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:4px;opacity:0;transform:translateY(105%);animation:developerMessageCycle 9s cubic-bezier(.22,.7,.2,1) infinite}.developerMessage b{font-weight:720;color:#5d36c9}.developerMessage:nth-child(2){animation-delay:3s}.developerMessage:nth-child(3){animation-delay:6s}
+.developerSocials a{background:#fff;border-color:#ddd5e9}.developerSocials a:hover{background:#f7f3fd;border-color:#c4b5df}.developerDockShine{background:linear-gradient(90deg,transparent,rgba(111,69,255,.06),transparent)}
+@keyframes developerMessageCycle{0%{opacity:0;transform:translateY(105%)}7%,27%{opacity:1;transform:translateY(0)}33%,100%{opacity:0;transform:translateY(-105%)}}
+@media(max-width:780px){body{padding-bottom:60px}.developerDock{height:60px}.developerDockInner{grid-template-columns:auto 1fr auto;gap:10px}.developerSignature div{display:none}.developerRotator{font-size:9px;height:22px}.developerMessage{white-space:nowrap}.developerSocials{gap:4px}}
+@media(prefers-reduced-motion:reduce){.developerMessage{display:none;animation:none}.developerMessage:first-child{display:flex;opacity:1;transform:none}.googleButton{transition:none}}

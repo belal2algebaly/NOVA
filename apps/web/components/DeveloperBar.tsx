@@ -4,9 +4,13 @@ export function DeveloperBar(){
    <div className="developerDockInner">
     <div className="developerSignature">
       <span className="developerMark">N</span>
-      <div><span>Developed by</span><strong>Belal Algebaly</strong></div>
+      <div><span>NOVA</span><strong>Built in public</strong></div>
     </div>
-    <span className="developerCraft">NOVA · E-commerce Intelligence</span>
+    <div className="developerRotator" aria-label="NOVA messages">
+      <span className="developerMessage"><b>Developed by</b> Belal Algebaly</span>
+      <span className="developerMessage"><b>Free to use</b> for a limited time</span>
+      <span className="developerMessage"><b>Built for sharper</b> e-commerce decisions</span>
+    </div>
     <div className="developerSocials">
       <a href="https://www.linkedin.com/in/belal-algebaly-2ab015308/" target="_blank" rel="noreferrer" aria-label="Belal Algebaly on LinkedIn" title="LinkedIn">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.6A2.2 2.2 0 1 1 5.2 8a2.2 2.2 0 0 1 0-4.4ZM3.3 9.7h3.8V21H3.3V9.7Zm6.1 0h3.6v1.55h.05c.5-.95 1.74-1.95 3.58-1.95 3.83 0 4.54 2.52 4.54 5.8V21h-3.8v-5.23c0-1.25-.02-2.86-1.74-2.86-1.74 0-2.01 1.36-2.01 2.77V21H9.4V9.7Z"/></svg>

@@ -23,3 +23,12 @@ See `docs/PRODUCTION-RUNBOOK.md`. Run Supabase migrations in numeric order, conf
 - Node test suite: 37/37 passing at packaging time.
 - Extension and shared-engine JavaScript syntax checks: passing.
 - Full Next.js production build was not executed in the packaging sandbox because dependency installation timed out before node_modules was created. This is an explicit unresolved verification boundary, not a claimed pass.
+
+
+## Phase 11 — Auth + contrast + premium footer
+- Higher contrast across Admin and user dashboards
+- Google sign in / sign up entry points
+- Email signup sends an activation link directly to the user inbox
+- Auth callback routes the root admin to `/admin`
+- Premium full-width rotating developer dock
+- Setup guide: `docs/AUTH-GOOGLE-EMAIL-SETUP.md`
