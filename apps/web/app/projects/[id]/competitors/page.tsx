@@ -30,6 +30,13 @@ export default async function Competitors({
   if (!isSupabaseConfigured) redirect('/dashboard');
 
   const supabase = await createSupabaseServerClient();
+  const { data: researchSessions } = await supabase
+    .from('research_sessions')
+    .select('id,status,quality_score,metrics,research_brief,search_plan,started_at,completed_at,error')
+    .eq('project_id', id)
+    .order('started_at', { ascending: false })
+    .limit(5);
+
   const { data: project } = await supabase
     .from('projects')
     .select(
@@ -97,11 +104,6 @@ export default async function Competitors({
           question="Analyze my validated competitor set. Which competitors are truly direct, what makes them relevant, and what competitive gaps matter most?"
         />
 
-        {q.error && (
-          <p className="alert error" data-discovery-feedback>
-            {q.error}
-          </p>
-        )}
         {q.added && <p className="alert success">Competitor validated and saved</p>}
         {q.profile && <p className="alert success">Store understanding refreshed</p>}
         {q.discovered && (
@@ -131,6 +133,7 @@ export default async function Competitors({
           projectId={id}
           competitors={competitors}
           configured={isDiscoveryConfigured()}
+          researchSessions={(researchSessions || []) as any[]}
           marketCard={
             <article className="panel marketPanel">
               <div className="panelhead">

@@ -1,50 +1,35 @@
 'use client';
 import {useEffect,useMemo,useState,useTransition} from 'react';
 import Link from 'next/link';
-import {addCompetitor,deleteCompetitor,discoverProjectCompetitors} from '../app/actions/competitors';
+import {addCompetitor,deleteCompetitor,discoverProjectCompetitors,recordCompetitorFeedback} from '../app/actions/competitors';
 
 type Competitor={id:string;name?:string|null;store_url:string;classification?:string|null;match_score?:number|null;confidence_score?:number|null;profile?:any};
+type ResearchSession={id:string;status:string;quality_score?:number|null;metrics?:any;research_brief?:any;search_plan?:any;started_at:string;completed_at?:string|null;error?:string|null};
 const stages=[
- ['Understanding market','Reading country, currency and category signals'],
+ ['Understanding your business','Building a product, market, price and audience fingerprint'],
+ ['Creating the research brief','AI is defining what must qualify as a direct competitor'],
  ['Building smart queries','AI is shaping local-first search queries'],
- ['Searching locally','Checking free search sources and cached results'],
- ['Qualifying candidates','Removing marketplaces, noise and weak geo matches'],
- ['Validating direct competitors','Crawling candidates and checking product, price and market overlap']
+ ['Planning local searches','NOVA is generating focused product and commercial search paths'],
+ ['Searching the real web','Retrieving evidence-backed domains with local market priority'],
+ ['Filtering weak candidates','Removing directories, marketplaces and low-intent results'],
+ ['Deep-validating stores','Reading products, categories, pricing, shipping and market evidence'],
+ ['Validating direct competitors','Applying strict local-market and product-overlap gates'],
+ ['Reviewing the final set','Strict rules decide first, then AI checks for contradictions']
 ] as const;
 
-export function CompetitorDiscoveryExperience({projectId,competitors,configured,marketCard}:{projectId:string;competitors:Competitor[];configured:boolean;marketCard:React.ReactNode}){
- const [pending,startTransition]=useTransition();
- const [stage,setStage]=useState(0);
- useEffect(()=>{if(!pending){setStage(0);return}const id=setInterval(()=>setStage(v=>Math.min(stages.length-1,v+1)),1700);return()=>clearInterval(id)},[pending]);
+export function CompetitorDiscoveryExperience({projectId,competitors,configured,marketCard,researchSessions=[]}:{projectId:string;competitors:Competitor[];configured:boolean;marketCard:React.ReactNode;researchSessions?:ResearchSession[]}){
+ const [pending,startTransition]=useTransition();const [stage,setStage]=useState(0);
+ useEffect(()=>{if(!pending){setStage(0);return}const id=setInterval(()=>setStage(v=>Math.min(stages.length-1,v+1)),1800);return()=>clearInterval(id)},[pending]);
  const progress=useMemo(()=>Math.round(((stage+1)/stages.length)*100),[stage]);
- const discover=()=>{document.querySelectorAll('[data-discovery-feedback]').forEach(el=>el.remove());startTransition(async()=>{await discoverProjectCompetitors(projectId)})};
- const add=addCompetitor.bind(null,projectId);
+ const discover=()=>{document.querySelectorAll('[data-discovery-feedback]').forEach(el=>el.remove());startTransition(async()=>{await discoverProjectCompetitors(projectId)})};const add=addCompetitor.bind(null,projectId);
  return <>
-  <div className="two competitorTop">
-   {marketCard}
-   <article className="panel discoveryPanel">
-    <p className="eyebrow">AI-ASSISTED LOCAL DISCOVERY</p>
-    <h2>Find meaningful competitors</h2>
-    <p className="muted">NOVA combines market evidence, AI-built search queries, free search providers and full-site validation. AI can prioritize evidence, but it never invents competitor domains.</p>
-    <button type="button" className="primary wide discoverButton" onClick={discover} disabled={pending||!configured}>{pending?'Discovery in progress…':'Discover competitors'}</button>
-    <small className={configured?'goodText':'warnText'}>{configured?'AI-assisted discovery · free search fallback · no paid search API required':'Automatic discovery disabled'}</small>
-    <div className="divider"/>
-    <p className="eyebrow">VALIDATE A URL</p>
-    <form action={add} className="inlineForm competitorForm"><input name="url" placeholder="https://competitor.com" required disabled={pending}/><button className="ghost" disabled={pending}>Validate</button></form>
-   </article>
-  </div>
-  {pending?<DiscoveryLoader stage={stage} progress={progress}/>:<ValidatedSet projectId={projectId} competitors={competitors}/>} 
- </>
+  <div className="two competitorTop">{marketCard}<article className="panel discoveryPanel"><p className="eyebrow">NOVA MARKET RESEARCH AGENT</p><h2>Discover verified direct competitors</h2><p className="muted">NOVA first defines what a direct competitor should look like, then AI plans local research, real search providers return domains, the crawler verifies each store, strict rules decide, and AI performs a final contradiction check</p><button type="button" className="primary wide discoverButton" onClick={discover} disabled={pending||!configured}>{pending?'Researching your market…':'Start competitor research'}</button><small className={configured?'goodText':'warnText'}>{configured?'AI orchestrated · live web evidence · strict direct gate · every competitor domain must come from real search evidence':'Automatic discovery disabled'}</small><div className="divider"/><p className="eyebrow">KNOWN COMPETITOR</p><form action={add} className="inlineForm competitorForm"><input name="url" placeholder="https://competitor.com" required disabled={pending}/><button className="ghost" disabled={pending}>Validate URL</button></form></article></div>
+  {pending?<DiscoveryLoader stage={stage} progress={progress}/>:<><ValidatedSet projectId={projectId} competitors={competitors}/><ResearchHistory projectId={projectId} sessions={researchSessions}/></>}
+ </>;
 }
-
-function DiscoveryLoader({stage,progress}:{stage:number;progress:number}){const current=stages[stage];return <section className="panel discoveryLoading" aria-live="polite" aria-busy="true">
- <div className="discoveryLoadingHero"><div className="discoveryOrb" aria-hidden="true"><i/><i/><i/><span>N</span></div><div><p className="eyebrow">NOVA DISCOVERY ENGINE</p><h2>{current[0]}</h2><p>{current[1]}</p></div><strong>{progress}%</strong></div>
- <div className="discoveryProgress"><span style={{width:`${progress}%`}}/></div>
- <div className="discoveryStages">{stages.map((s,i)=><div key={s[0]} className={i<stage?'done':i===stage?'active':''}><span>{i<stage?'✓':i+1}</span><div><b>{s[0]}</b><small>{s[1]}</small></div></div>)}</div>
- <div className="candidateSkeletons" aria-hidden="true"><i/><i/><i/></div>
- </section>}
-
-function ValidatedSet({projectId,competitors}:{projectId:string;competitors:Competitor[]}){return <section className="panel validatedSet"><div className="panelhead"><div><p className="eyebrow">VALIDATED SET</p><h2>{competitors.length} competitor profiles</h2></div><span className="pill">Market fit matters</span></div>{competitors.length?<div className="competitorCards">{competitors.map(c=>{const p=c.profile||{};const del=deleteCompetitor.bind(null,projectId,c.id);return <article className="competitorCard competitorReveal" key={c.id}><div className="competitorCardTop"><Link href={`/projects/${projectId}/competitors/${c.id}`}><b>{c.name||c.store_url}</b><small>{safeDomain(c.store_url)}</small></Link><span className={`classBadge ${classKey(c.classification||'')}`}>{c.classification||'Unknown'}</span></div><div className="competitorQuickStats"><div><span>Match</span><strong>{c.match_score??0}%</strong></div><div><span>Market</span><strong>{p.primaryMarket||p.marketHints?.[0]||'—'}</strong></div><div><span>Price range</span><strong>{range(p)}</strong></div></div><div className="categoryLine"><span>Categories</span><p>{p.categories?.slice(0,5).join(' · ')||'Not proven yet'}</p></div><div className="competitorCardFoot"><span className="confidenceMini">{Math.round(Number(c.confidence_score||0))}% evidence</span><Link href={`/projects/${projectId}/competitors/${c.id}`}>Open research →</Link><form action={del}><button className="miniButton">Remove</button></form></div></article>})}</div>:<div className="emptyCompact"><p>No validated competitors yet. Run AI-assisted discovery or validate a known URL</p></div>}</section>}
+function DiscoveryLoader({stage,progress}:{stage:number;progress:number}){const current=stages[stage];return <section className="panel discoveryLoading" aria-live="polite" aria-busy="true"><div className="discoveryLoadingHero"><div className="discoveryOrb" aria-hidden="true"><i/><i/><i/><span>N</span></div><div><p className="eyebrow">NOVA RESEARCH ORCHESTRATOR</p><h2>{current[0]}</h2><p>{current[1]}</p></div><strong>{progress}%</strong></div><div className="discoveryProgress"><span style={{width:`${progress}%`}}/></div><div className="discoveryStages">{stages.map((s,i)=><div key={s[0]} className={i<stage?'done':i===stage?'active':''}><span>{i<stage?'✓':i+1}</span><div><b>{s[0]}</b><small>{s[1]}</small></div></div>)}</div><div className="candidateSkeletons" aria-hidden="true"><i/><i/><i/></div></section>}
+function ValidatedSet({projectId,competitors}:{projectId:string;competitors:Competitor[]}){return <section className="panel validatedSet"><div className="panelhead"><div><p className="eyebrow">VERIFIED DIRECT SET</p><h2>{competitors.length} verified competitor profiles</h2></div><span className="pill">Evidence before similarity</span></div>{competitors.length?<div className="competitorCards">{competitors.map(c=>{const p=c.profile||{};const del=deleteCompetitor.bind(null,projectId,c.id);const no=recordCompetitorFeedback.bind(null,projectId,c.id,safeDomain(c.store_url),'not_competitor');const ref=recordCompetitorFeedback.bind(null,projectId,c.id,safeDomain(c.store_url),'reference_only');return <article className="competitorCard competitorReveal" key={c.id}><div className="competitorCardTop"><Link href={`/projects/${projectId}/competitors/${c.id}`}><b>{c.name||c.store_url}</b><small>{safeDomain(c.store_url)}</small></Link><span className={`classBadge ${classKey(c.classification||'')}`}>{c.classification||'Unknown'}</span></div><div className="competitorQuickStats"><div><span>Match</span><strong>{c.match_score??0}%</strong></div><div><span>Market</span><strong>{p.primaryMarket||p.marketHints?.[0]||'—'}</strong></div><div><span>Price range</span><strong>{range(p)}</strong></div></div><div className="categoryLine"><span>Categories</span><p>{p.categories?.slice(0,5).join(' · ')||'Not proven yet'}</p></div><div className="competitorCardFoot"><span className="confidenceMini">{Math.round(Number(c.confidence_score||0))}% evidence</span><Link href={`/projects/${projectId}/competitors/${c.id}`}>Open intelligence →</Link><details className="feedbackMenu"><summary>Correct result?</summary><form action={no}><button className="miniButton" type="submit">Not a competitor</button></form><form action={ref}><button className="miniButton" type="submit">Reference only</button></form></details><form action={del}><button className="miniButton">Remove</button></form></div></article>})}</div>:<div className="emptyCompact"><p>No verified direct competitors yet. NOVA will return zero rather than fill this area with weak or invented domains</p></div>}</section>}
+function ResearchHistory({projectId,sessions}:{projectId:string;sessions:ResearchSession[]}){if(!sessions.length)return null;return <section className="panel researchHistory"><div className="panelhead"><div><p className="eyebrow">RESEARCH HISTORY</p><h2>How NOVA reached its decisions</h2></div></div><div className="researchSessionList">{sessions.slice(0,5).map(s=>{const m=s.metrics||{};return <details key={s.id}><summary><div><b>{new Date(s.started_at).toLocaleString()}</b><span>{m.searchCandidates||0} candidates · {m.crawled||0} crawled · {m.accepted||0} verified</span></div><strong>{s.quality_score!=null?`${s.quality_score}/100`:'—'}</strong></summary><div className="researchSessionBody"><p>{s.research_brief?.directCompetitorDefinition||'Research definition not available'}</p>{m.synthesis?.summary&&<p><b>AI synthesis:</b> {m.synthesis.summary}</p>}<div className="researchMetrics"><span>Rejected: {m.rejected||0}</span><span>Avg evidence: {m.averageAcceptedConfidence||0}%</span><span>Status: {s.status}</span></div>{s.error&&<p className="muted">{s.error}</p>}<Link className="miniButton researchOpen" href={`/projects/${projectId}/research/${s.id}`}>Open full trace →</Link></div></details>})}</div></section>}
 function safeDomain(u:string){try{return new URL(u).hostname.replace(/^www\./,'')}catch{return u}}
 function range(p:any){if(p?.priceMin==null||p?.priceMax==null)return '—';return `${p.currencies?.[0]||''} ${Math.round(p.priceMin)}–${Math.round(p.priceMax)}`}
 function classKey(v:string){return String(v||'').toLowerCase().replace(/\s+/g,'-')}

@@ -75,3 +75,11 @@ Gemini primary + Groq fallback + NOVA deterministic fallback. See `docs/NOVA-AI-
 ## NOVA 1.6 — AI Operating System
 
 Adds project-wide Chat with NOVA, evidence-based Buyer Persona intelligence, AI second-pass competitor verification and a unified project AI context. Run `infra/supabase/012_ai_os_persona_chat.sql` after migration 011. See `docs/NOVA-1.6-AI-OPERATING-SYSTEM-50-PHASES.md` and `docs/NOVA-1.6-RELEASE-NOTES.md`.
+
+
+## Reliable competitor discovery
+For reliable live competitor discovery, add `TAVILY_API_KEY` in Vercel. NOVA uses Tavily as the primary live retrieval layer, then SearXNG/DuckDuckGo as fallbacks. AI providers only plan/rerank real URLs and cannot invent domains.
+
+
+## NOVA 2.0 — Market Research Operating System
+Adds auditable Research Sessions, AI research briefs and search plans, candidate decision traces, project competitor knowledge, human feedback learning, Research Quality Scores, executable Chat-with-NOVA competitor research commands, commercial fingerprints, and Persona × Competitor Intelligence. Run `infra/supabase/013_nova_20_market_research.sql` after migration 012. See `docs/NOVA-2.0-MARKET-RESEARCH-OPERATING-SYSTEM.md`.
