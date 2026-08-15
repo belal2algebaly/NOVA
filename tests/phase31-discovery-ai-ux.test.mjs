@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+test('competitor discovery uses AI query planning and evidence-only reranking',()=>{const d=read('apps/web/lib/competitors/discovery.ts'),a=read('apps/web/lib/ai/competitor-discovery.ts');assert.match(d,/aiCompetitorQueryPlan/);assert.match(d,/aiRerankCompetitorCandidates/);assert.match(a,/Do not add domains/);assert.match(a,/DIRECT e-commerce competitors/)});
+test('discover UX replaces saved competitors with staged loading feedback',()=>{const c=read('apps/web/components/CompetitorDiscoveryExperience.tsx');assert.match(c,/DiscoveryLoader/);assert.match(c,/Building smart queries/);assert.match(c,/Validating direct competitors/);assert.match(c,/pending\?<DiscoveryLoader/)});
+test('developer dock is compact and stronger',()=>{const css=read('apps/web/app/styles.css'),bar=read('apps/web/components/DeveloperBar.tsx');assert.match(css,/developerDock\{height:50px!important;background:linear-gradient/);assert.match(bar,/Audit less · Understand more · Move faster/)});

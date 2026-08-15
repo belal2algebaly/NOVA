@@ -1,7 +1,8 @@
 import 'server-only';
 import type {StoreProfile} from './store-intelligence';
+import {aiCompetitorQueryPlan,aiRerankCompetitorCandidates} from '../ai/competitor-discovery';
 
-export type Candidate={url:string;title:string;snippet:string;source:string;rank:number;scope:'local'|'regional'|'global';queryHits:number;geoScore:number;intentScore:number;preScore:number};
+export type Candidate={url:string;title:string;snippet:string;source:string;rank:number;scope:'local'|'regional'|'global';queryHits:number;geoScore:number;intentScore:number;preScore:number;aiScore?:number;aiReason?:string;aiProvider?:string};
 type RawResult={url?:string;title?:string;content?:string;snippet?:string};
 export type DiscoveryCache={get:(key:string)=>Promise<RawResult[]|null>;getStale?:(key:string)=>Promise<RawResult[]|null>;set:(key:string,rows:RawResult[],ttlHours:number)=>Promise<void>};
 const DIRECTORY_URL='https://searx.space/data/instances.json';
@@ -33,10 +34,10 @@ async function cachedSearch(q:string,scope:Candidate['scope'],profile:StoreProfi
  const stale=await cache?.getStale?.(key);if(stale?.length)return {rows:stale,source:'stale-cache'};throw new Error(last||'No free search provider returned results')}
 function merge(map:Map<string,Candidate>,rows:Candidate[]){for(const c of rows){const prev=map.get(c.url);if(prev){prev.queryHits++;prev.preScore=Math.min(100,prev.preScore+9);prev.geoScore=Math.max(prev.geoScore,c.geoScore);prev.intentScore=Math.max(prev.intentScore,c.intentScore);if(scopeRank(c.scope)<scopeRank(prev.scope))prev.scope=c.scope}else map.set(c.url,c)}}
 function qualified(map:Map<string,Candidate>,min=5){return [...map.values()].filter(x=>x.queryHits>=2||x.preScore>=62).sort((a,b)=>b.preScore-a.preScore||b.queryHits-a.queryHits||scopeRank(a.scope)-scopeRank(b.scope)||a.rank-b.rank).slice(0,16)}
-export async function discoverCandidates(profile:StoreProfile,cache?:DiscoveryCache):Promise<Candidate[]>{if(!isDiscoveryConfigured())return [];const instances=await freeInstances();const plan=queryPlan(profile),map=new Map<string,Candidate>();let last='';let n=0;
- const run=async(qs:string[],scope:Candidate['scope'])=>{for(const q of qs){try{const s=await cachedSearch(q,scope,profile,instances,cache);merge(map,normalize(s.rows,profile.domain,s.source,scope,profile,n*30));n++;if(qualified(map,6).length>=6)return true}catch(e){last=e instanceof Error?e.message:String(e)}await sleep(180)}return false};
- if(await run(plan.local,'local'))return qualified(map);
+export async function discoverCandidates(profile:StoreProfile,cache?:DiscoveryCache):Promise<Candidate[]>{if(!isDiscoveryConfigured())return [];const instances=await freeInstances();const fallbackPlan=queryPlan(profile),plan=await aiCompetitorQueryPlan(profile,fallbackPlan),map=new Map<string,Candidate>();let last='';let n=0;
+ const run=async(qs:string[],scope:Candidate['scope'])=>{for(const q of qs){try{const s=await cachedSearch(q,scope,profile,instances,cache);merge(map,normalize(s.rows,profile.domain,s.source,scope,profile,n*30));n++;if(qualified(map,6).length>=6)return true}catch(e){last=e instanceof Error?e.message:String(e)}await sleep(260)}return false};
+ if(await run(plan.local,'local'))return aiRerankCompetitorCandidates(profile,qualified(map));
  if(qualified(map,4).length<6)await run(plan.regional,'regional');
  if(qualified(map,4).length<5)await run(plan.global,'global');
- const out=qualified(map,1);if(out.length)return out;throw new Error('Free competitor search is busy right now. NOVA tried cached results and multiple free providers. Your saved competitors remain available and manual validation still works')}
+ const out=qualified(map,1);if(out.length)return aiRerankCompetitorCandidates(profile,out);throw new Error('Automatic discovery could not reach a free search source right now. NOVA used cache and provider failover, but no fresh candidates were available. Try again later or validate a known competitor URL.') }
 function scopeRank(s:Candidate['scope']){return s==='local'?0:s==='regional'?1:2}

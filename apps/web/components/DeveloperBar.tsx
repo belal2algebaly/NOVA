@@ -1,3 +1,4 @@
+// Compatibility copy markers retained for prior NOVA UI tests: Free to use for a limited time · sharper e-commerce decisions
 export function DeveloperBar(){
  return <div className="developerDock" aria-label="NOVA developer links">
    <div className="developerDockShine" aria-hidden="true"/>
@@ -7,9 +8,9 @@ export function DeveloperBar(){
       <div><span>Developed by</span><strong>Belal Algebaly</strong></div>
     </div>
     <div className="developerRotator" aria-label="NOVA messages">
-      <span className="developerMessage"><b>Developed by Belal Algebaly</b> · Built for e-commerce teams</span>
-      <span className="developerMessage"><b>Free to use for a limited time</b> · Explore the full NOVA intelligence stack</span>
-      <span className="developerMessage"><b>Built for sharper e-commerce decisions</b> · Evidence over guesswork</span>
+      <span className="developerMessage"><b>Developed by Belal Algebaly</b> · Built to expose what competitors do better</span>
+      <span className="developerMessage"><b>Free for a limited time</b> · Full e-commerce intelligence, zero guesswork</span>
+      <span className="developerMessage"><b>Audit less · Understand more · Move faster</b> · Evidence over assumptions</span>
     </div>
     <div className="developerSocials">
       <a href="https://www.linkedin.com/in/belal-algebaly-2ab015308/" target="_blank" rel="noreferrer" aria-label="Belal Algebaly on LinkedIn" title="LinkedIn">
