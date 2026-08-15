@@ -3,8 +3,8 @@ import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
 import {createSupabaseServerClient} from '../../lib/supabase/server';
 import {scanUrl} from '../../lib/audit/server-scanner';
-import {benchmarkRuns} from '@nova/benchmark-engine';
-import {opportunitiesFromBenchmark} from '@nova/opportunity-engine';
+import {benchmarkRuns} from '../../lib/engines/benchmark';
+import {opportunitiesFromBenchmark} from '../../lib/engines/opportunity';
 import {effortForOpportunity,decisionScore} from '../../lib/intelligence/opportunity';
 
 export async function runBenchmark(projectId:string){
