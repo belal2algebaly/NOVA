@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {scoreAudit,buildRecommendations} from '../packages/audit-engine/src/index.js';import {scoreCompetitor,classifyCompetitor} from '../packages/competitor-engine/src/index.js';import {normalizeAuditReport} from '../packages/contracts/src/index.js';
+test('unknown evidence does not inflate score or coverage',()=>{const r=scoreAudit({confidence:90},[{status:'pass',weight:10},{status:'unknown',weight:10}]);assert.equal(r.coverage,50);assert.equal(r.scoredCount,1);});
+test('critical failures cap an otherwise high score',()=>{const r=scoreAudit({confidence:95},[{status:'fail',weight:10},{status:'pass',weight:90}]);assert.ok(r.score<=68);});
+test('recommendations prioritize failures',()=>{const x=buildRecommendations([{title:'Warn',status:'warn',weight:9,recommendation:'w'},{title:'Fail',status:'fail',weight:2,recommendation:'f'}]);assert.equal(x[0].title,'Fail');});
+test('direct competitor classification threshold',()=>assert.equal(classifyCompetitor(85),'Direct'));
+test('competitor confidence is based on evidence coverage',()=>{const r=scoreCompetitor({categoryOverlap:1,marketOverlap:1});assert.equal(r.match,100);assert.equal(r.confidence,50);assert.equal(r.confidenceLabel,'Low');});
+test('audit contract preserves unknown instead of fabricating score',()=>{const r=normalizeAuditReport({url:'https://example.com'});assert.equal(r.score,null);assert.equal(r.page.type,'UNKNOWN');});

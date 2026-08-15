@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NOVA</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <div class="identity">
+      <img class="app-icon" src="icons/icon48.png" alt="" />
+      <div>
+        <div class="kicker">ECOMMERCE CRO SCANNER</div>
+        <h1>NOVA</h1>
+      </div>
+    </div>
+    <button id="rescan" class="secondary">Rescan</button>
+  </header>
+
+  <main>
+    <section class="view-switch card compact">
+      <div class="section-heading"><span>Viewport audit</span><span class="tiny">responsive page re-load</span></div>
+      <div class="view-buttons">
+        <button data-profile="current" class="view-btn active">Current</button>
+        <button data-profile="mobile" class="view-btn">Mobile</button>
+        <button data-profile="desktop" class="view-btn">Desktop</button>
+      </div>
+      <div id="viewHelp" class="tiny view-help">Current scans the page exactly as it is rendered now. Mobile/Desktop reload the same URL in a temporary viewport and scan that rendered layout.</div>
+    </section>
+
+    <section id="state" class="card state">
+      <div class="spinner"></div>
+      <div>
+        <strong id="scanTitle">Preparing deep scan…</strong>
+        <div id="scanSub" class="muted">Waiting for dynamic content, layout and product media to settle.</div>
+      </div>
+    </section>
+
+    <section id="siteInfo" class="card hidden">
+      <div class="section-heading"><span>Page intelligence</span><span id="scanTime" class="tiny"></span></div>
+      <div class="info-grid">
+        <div class="info"><span>Platform</span><strong id="platform">—</strong></div>
+        <div class="info"><span>Page type</span><strong id="pageTypeInfo">—</strong></div>
+        <div class="info"><span>Likely category</span><strong id="category">—</strong></div>
+        <div class="info"><span>Likely market</span><strong id="market">—</strong></div>
+        <div class="info"><span>Language</span><strong id="language">—</strong></div>
+        <div class="info"><span>Currency</span><strong id="currency">—</strong></div>
+      </div>
+      <div class="url-row"><span>Current URL</span><a id="pageUrl" href="#" target="_blank" rel="noreferrer">—</a></div>
+      <div id="classificationEvidence" class="classification muted"></div>
+      <div id="speedStrip" class="speed-strip"></div>
+    </section>
+
+    <section id="summary" class="card hidden">
+      <div class="score-wrap">
+        <div class="score" id="score">—</div>
+        <div class="score-copy">
+          <div class="eyebrow">NOVA CRO readiness</div>
+          <div id="pageType" class="page-type">—</div>
+          <div id="confidence" class="muted"></div>
+        </div>
+      </div>
+      <div class="coverage"><span>Evidence coverage</span><div class="coverage-track"><i id="coverageBar"></i></div><strong id="coverageText">—</strong></div>
+      <div id="scoreNote" class="note"></div>
+      <div id="counts" class="count-row"></div>
+    </section>
+
+    <section id="pageRequirements" class="card hidden">
+      <div class="section-heading"><span>Page requirements model</span><span class="tiny">expected for this page type</span></div>
+      <div id="requirementsList" class="requirements-list"></div>
+    </section>
+
+    <section id="recommendations" class="card hidden">
+      <div class="section-heading"><span>Priority recommendations</span><span class="tiny">research + observed evidence</span></div>
+      <div id="recommendationList"></div>
+    </section>
+
+    <div id="filters" class="filters hidden">
+      <button data-filter="all" class="active">All</button>
+      <button data-filter="fail">Issues</button>
+      <button data-filter="warn">Review</button>
+      <button data-filter="pass">Pass</button>
+      <button data-filter="review">Human review</button>
+      <button data-filter="unknown">Unverified</button>
+    </div>
+
+    <section id="results" class="results"></section>
+
+
+    <section id="novaPlatform" class="card platform-card">
+      <div class="section-heading"><span>NOVA Platform</span><span id="syncState" class="tiny">not paired</span></div>
+      <div class="platform-grid">
+        <input id="appUrl" placeholder="https://your-nova-app.vercel.app" />
+        <input id="projectId" placeholder="Project ID" />
+        <input id="extensionKey" placeholder="Extension Key" />
+      </div>
+      <div class="platform-actions">
+        <button id="savePairing" class="secondary">Save pairing</button>
+        <button id="sendToNova" class="primary" disabled>Send audit to NOVA</button>
+      </div>
+      <div id="syncMessage" class="tiny muted">Pair this extension with a project from Dashboard → Extension.</div>
+    </section>
+
+    <section id="method" class="card hidden">
+      <h2>How NOVA scans</h2>
+      <p>NOVA uses evidence-first checks on the rendered page. It waits for dynamic content, performs a controlled page sweep for lazy-loaded sections, detects fixed/sticky purchase actions, and only passes a check when it can point to supporting evidence. Missing evidence never becomes a silent pass.</p>
+      <p>The CRO layer prioritizes findings that affect the buying decision: purchase action reachability, delivery/returns clarity, product information, social proof, visual hierarchy, contrast, friction, mobile usability and trust. Page-type requirement models are different for PDP, PLP, Cart, Checkout and Homepage. Subjective judgments remain marked for human review.</p>
+      <button id="copyReport" class="primary">Copy full report</button>
+    </section>
+  </main>
+
+  <footer class="author-bar">
+    <span class="byline">By <strong class="shine-name">Belal Algebaly</strong></span>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/belal-algebaly-2ab015308/" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.2H3.3V19h3.2V8.2ZM4.9 3A1.9 1.9 0 1 0 5 6.8 1.9 1.9 0 0 0 4.9 3ZM20.7 12.8c0-3.3-1.8-4.9-4.2-4.9-1.9 0-2.8 1.1-3.3 1.8V8.2H10c0 1 .1 10.8 0 10.8h3.2v-6c0-.3 0-.7.1-.9.2-.7.9-1.5 2-1.5 1.4 0 2 1.1 2 2.7V19h3.2l.2-6.2Z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61585212901611" target="_blank" rel="noreferrer" aria-label="Facebook profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5H17V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H7.5v3.1h2.8V21h3.4Z"/></svg>
+      </a>
+    </div>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

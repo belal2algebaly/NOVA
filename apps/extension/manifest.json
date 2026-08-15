@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "NOVA",
+  "version": "1.0.0",
+  "description": "Evidence-first ecommerce CRO scanner for PDP, PLP, Cart, Checkout and Homepage with deep scanning, performance, visual hierarchy, contrast and prioritized recommendations.",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "windows",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Scan this ecommerce page with NOVA",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scanner.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

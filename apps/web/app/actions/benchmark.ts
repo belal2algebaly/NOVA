@@ -1,0 +1,34 @@
+'use server';
+import {redirect} from 'next/navigation';
+import {revalidatePath} from 'next/cache';
+import {createSupabaseServerClient} from '../../lib/supabase/server';
+import {scanUrl} from '../../lib/audit/server-scanner';
+import {benchmarkRuns} from '@nova/benchmark-engine';
+import {opportunitiesFromBenchmark} from '@nova/opportunity-engine';
+
+export async function runBenchmark(projectId:string){
+ const supabase=await createSupabaseServerClient(); const {data:{user}}=await supabase.auth.getUser(); if(!user)redirect('/login');
+ const {data:store}=await supabase.from('stores').select('id,url').eq('project_id',projectId).limit(1).maybeSingle();
+ if(!store)redirect(`/projects/${projectId}/benchmark?error=${encodeURIComponent('No connected store.')}`);
+ const {data:competitors}=await supabase.from('competitors').select('id,name,store_url,classification,match_score').eq('project_id',projectId).neq('status','rejected').order('match_score',{ascending:false}).limit(5);
+ if(!competitors?.length)redirect(`/projects/${projectId}/benchmark?error=${encodeURIComponent('Validate at least one competitor first.')}`);
+ try{
+   const own=await scanUrl(store.url);
+   const competitorRuns=[] as any[];
+   for(const c of competitors){try{const report=await scanUrl(c.store_url);competitorRuns.push({id:c.id,name:c.name||c.store_url,report});}catch{}}
+   if(!competitorRuns.length)throw new Error('None of the competitor pages could be scanned.');
+   const result=benchmarkRuns({report:own},competitorRuns);
+   const opportunities=opportunitiesFromBenchmark(result);
+   const {data:bench,error}=await supabase.from('benchmarks').insert({project_id:projectId,result:{...result,own:{url:store.url,page:own.page,site:own.site},competitors:competitorRuns.map(x=>({id:x.id,name:x.name,url:x.report.url,page:x.report.page,site:x.report.site}))}}).select('id').single();
+   if(error)throw error;
+   for(const o of opportunities){await supabase.from('opportunities').upsert({project_id:projectId,key:o.key,title:o.title,impact:o.impact,confidence:String(o.confidence),confidence_score:o.confidence,priority:o.priority,evidence:{store:o.evidence,competitive:o.competitorEvidence},recommendation:o.recommendation,status:'identified'},{onConflict:'project_id,key'});}
+   revalidatePath(`/projects/${projectId}`); revalidatePath(`/projects/${projectId}/benchmark`); revalidatePath(`/projects/${projectId}/opportunities`);
+   redirect(`/projects/${projectId}/benchmark?run=${bench?.id||''}`);
+ }catch(e){redirect(`/projects/${projectId}/benchmark?error=${encodeURIComponent(e instanceof Error?e.message:'Benchmark failed.')}`)}
+}
+
+export async function updateOpportunity(projectId:string,opportunityId:string,status:string){
+ const allowed=['identified','planned','testing','implemented','dismissed']; if(!allowed.includes(status))return;
+ const supabase=await createSupabaseServerClient(); await supabase.from('opportunities').update({status}).eq('id',opportunityId).eq('project_id',projectId);
+ revalidatePath(`/projects/${projectId}/opportunities`); revalidatePath(`/projects/${projectId}`);
+}

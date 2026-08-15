@@ -1,0 +1,1 @@
+export function SetupNotice(){return <div className="setupNotice"><b>Backend setup required</b><span>Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY, then apply the Phase 2 SQL migration. The UI is intentionally not pretending data is persisted.</span></div>}

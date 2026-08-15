@@ -1,0 +1,3 @@
+export const AuditStatus=Object.freeze({PASS:'pass',WARN:'warn',FAIL:'fail',REVIEW:'review',UNKNOWN:'unknown'});
+export function normalizeAuditReport(input={}){return {version:input.version||'1.0',url:input.url||'',page:input.page||{type:'UNKNOWN',confidence:0,evidence:[]},site:input.site||{},score:input.score??null,coverage:input.coverage??0,checks:Array.isArray(input.checks)?input.checks:[],recommendations:Array.isArray(input.recommendations)?input.recommendations:[],performance:input.performance||{},createdAt:input.createdAt||new Date().toISOString()};}
+export function isAuditableStatus(status){return ![AuditStatus.UNKNOWN,AuditStatus.REVIEW].includes(status);}

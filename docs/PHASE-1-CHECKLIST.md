@@ -1,0 +1,14 @@
+# Phase 1 Acceptance Checklist
+- [x] Preserve NOVA v0.5.0 extension source
+- [x] Create web application package
+- [x] Create shared audit contracts
+- [x] Extract score/recommendation logic into audit-engine
+- [x] Create competitor scoring engine
+- [x] Create initial Supabase data model
+- [x] Add Vercel-ready web configuration
+- [x] Add responsive dashboard shell
+- [x] Add automated core tests
+- [ ] Connect Supabase Auth — Phase 2
+- [ ] Persist projects — Phase 2
+- [ ] Run server-side live scans — Phase 3
+- [ ] Discover live competitors — Phase 4
