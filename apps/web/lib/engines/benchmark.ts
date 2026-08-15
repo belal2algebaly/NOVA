@@ -4,7 +4,7 @@ type AuditCheck = {
   title?: string;
   status?: string;
   weight?: number;
-  evidence?: string;
+  evidence?: string | string[];
   recommendation?: string;
 };
 
@@ -18,13 +18,18 @@ type AuditRun = {
 
 const comparable = (status: string) => ['pass', 'fail', 'warn'].includes(String(status || '').toLowerCase());
 
+function normalizeEvidence(evidence: AuditCheck['evidence']) {
+  if (Array.isArray(evidence)) return evidence.filter(Boolean).join(' · ');
+  return evidence || '';
+}
+
 export function normalizeCheck(check: AuditCheck = {}) {
   return {
     key: check.key || check.id || String(check.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
     title: check.title || 'Untitled check',
     status: String(check.status || 'unknown').toLowerCase(),
     weight: Number(check.weight || 0),
-    evidence: check.evidence || '',
+    evidence: normalizeEvidence(check.evidence),
     recommendation: check.recommendation || '',
   };
 }
