@@ -45,3 +45,7 @@ This build adds Monitoring V2, Product & Pricing Intelligence, Opportunity Engin
 After upgrading an existing Supabase project, run `infra/supabase/010_nova_11_intelligence.sql` once.
 
 Optional: set `NEXT_PUBLIC_APP_URL=https://nova-eynk.vercel.app` in Vercel so generated share URLs are displayed as complete URLs inside the Reports screen.
+## UI V3 — 5 Radical Phases
+
+This build includes a five-phase radical UI architecture pass: sectioned active navigation, sticky command canvas, redesigned data surfaces, mobile command dock, and reduced-motion-safe interaction polish. No new Supabase migration is required.
+

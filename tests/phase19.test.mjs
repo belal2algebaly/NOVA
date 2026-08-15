@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
+test('UX round 1 gives server actions visible pending states',()=>{const x=read('apps/web/components/ActionButton.tsx');assert.match(x,/useFormStatus/);assert.match(x,/pendingLabel/);assert.match(x,/disabled=\{pending\}/)});
+test('UX round 2 provides route and skeleton loading feedback',()=>{const l=read('apps/web/app/loading.tsx');const u=read('apps/web/components/UXFeedback.tsx');assert.match(l,/skeletonGrid/);assert.match(u,/routeProgress/);assert.match(u,/NOVA is working/)});
+test('UX round 3 surfaces success and error feedback',()=>{const u=read('apps/web/components/UXFeedback.tsx');assert.match(u,/search\.get\('error'\)/);assert.match(u,/toast/);assert.match(u,/aria-live/)});
+test('UX round 4 handles slow operations and offline recovery',()=>{const u=read('apps/web/components/UXFeedback.tsx');const b=read('apps/web/components/ActionButton.tsx');assert.match(u,/navigator\.onLine/);assert.match(u,/Still working/);assert.match(b,/This can take a moment/)});
+test('UX round 5 includes accessibility, destructive confirmation and reduced motion',()=>{const css=read('apps/web/app/styles.css');const b=read('apps/web/components/ActionButton.tsx');assert.match(css,/:focus-visible/);assert.match(css,/prefers-reduced-motion/);assert.match(b,/confirmMessage/)});
