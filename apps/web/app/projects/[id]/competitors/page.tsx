@@ -10,6 +10,7 @@ import { isDiscoveryConfigured } from '../../../../lib/competitors/discovery';
 import { createSupabaseServerClient } from '../../../../lib/supabase/server';
 import { refreshStoreProfile } from '../../../actions/competitors';
 
+export const maxDuration = 120;
 type CompetitorsSearchParams = {
   error?: string;
   added?: string;
@@ -104,6 +105,7 @@ export default async function Competitors({
           question="Analyze my validated competitor set. Which competitors are truly direct, what makes them relevant, and what competitive gaps matter most?"
         />
 
+        {q.error && <p className="alert error" role="alert">{q.error}</p>}
         {q.added && <p className="alert success">Competitor validated and saved</p>}
         {q.profile && <p className="alert success">Store understanding refreshed</p>}
         {q.discovered && (

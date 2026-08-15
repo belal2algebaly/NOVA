@@ -1,7 +1,7 @@
 {
   "name": "nova-platform",
   "private": true,
-  "version": "2.0.0-market-research-os",
+  "version": "2.0.1-production-recovery",
   "workspaces": [
     "apps/*",
     "packages/*"

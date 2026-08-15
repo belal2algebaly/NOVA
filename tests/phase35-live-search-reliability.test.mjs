@@ -20,8 +20,10 @@ test('AI does not invent competitor domains',()=>{
   assert.match(discovery,/No weak or invented domains were saved/);
 });
 
-test('competitor page avoids duplicate inline discovery error',()=>{
-  assert.doesNotMatch(page,/q\.error\s*&&/);
+test('competitor research errors are returned through one client outcome while manual URL errors remain visible',()=>{
+  assert.match(ux,/DiscoveryOutcome/);
+  assert.match(ux,/setOutcome\(result\)/);
+  assert.match(page,/q\.error\s*&&/);
 });
 
 test('system health reports Tavily connectivity',()=>{

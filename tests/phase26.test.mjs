@@ -5,6 +5,6 @@ const a=fs.readFileSync('apps/web/app/actions/competitors.ts','utf8');
 const m=fs.readFileSync('infra/supabase/011_search_reliability_cache.sql','utf8');
 test('V4 search is progressive and cache first',()=>{assert.match(d,/if\(await run\(plan\.local,'local'\)\)/);assert.match(d,/qualified\(map,4\)\.length<6/);assert.match(d,/cache\?\.get\(key\)/);assert.match(d,/getStale/)});
 test('V4 search handles public provider rate limits and fallback',()=>{assert.match(d,/r\.status===429\|\|r\.status===403/);assert.match(d,/cooldown\.set/);assert.match(d,/searchDuck/);assert.match(d,/stale-cache/)});
-test('V4 avoids recrawling fresh competitors',()=>{assert.match(a,/validated_at/);assert.match(a,/24\*3600_000/);assert.match(a,/candidates\.slice\(0,10\)/)});
+test('V4 bounds expensive validation work and persists validation timestamps',()=>{const session=fs.readFileSync('apps/web/lib/research/session.ts','utf8');assert.match(a,/validated_at/);assert.match(session,/candidates\.slice\(0,5\)/);assert.match(session,/mode:'validation'/)});
 test('V4 taxonomy separates merchandising labels from verified categories',()=>{assert.match(s,/PROMO_CATEGORY/);assert.match(s,/CTA_CATEGORY/);assert.match(s,/buildTaxonomy/);assert.match(s,/merchandisingLabels/);assert.match(s,/taxonomyConfidence/)});
 test('V4 persists discovery cache with project RLS',()=>{assert.match(m,/discovery_search_cache/);assert.match(m,/expires_at/);assert.match(m,/can_access_project/);assert.match(m,/enable row level security/)});

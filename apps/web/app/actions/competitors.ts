@@ -9,6 +9,7 @@ import {aiReviewCompetitorEvidence} from '../../lib/ai/competitor-discovery';
 import {buildResearchBrief,buildResearchPlan,prequalifyCandidates,researchQualityScore,synthesizeCompetitorSet} from '../../lib/research/orchestrator';
 import {buildStoreFingerprint} from '../../lib/research/fingerprint';
 import {runCompetitorResearch} from '../../lib/research/session';
+import {humanizeResearchError} from '../../lib/research/errors';
 
 async function context(projectId:string){
  const supabase=await createSupabaseServerClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect('/login');
@@ -32,9 +33,16 @@ async function validate(projectId:string,url:string,source='manual',searchOverla
 
 export async function addCompetitor(projectId:string,formData:FormData){const raw=String(formData.get('url')||'').trim();if(!raw)redirect(`/projects/${projectId}/competitors?error=${encodeURIComponent('Enter a competitor URL.')}`);try{await validate(projectId,raw)}catch(e){redirect(`/projects/${projectId}/competitors?error=${encodeURIComponent(e instanceof Error?e.message:'Validation failed.')}`)}revalidatePath(`/projects/${projectId}/competitors`);revalidatePath(`/projects/${projectId}`);redirect(`/projects/${projectId}/competitors?added=1`)}
 
-export async function discoverProjectCompetitors(projectId:string){
- if(!isDiscoveryConfigured())redirect(`/projects/${projectId}/competitors?error=${encodeURIComponent('Automatic discovery is disabled. Manual competitor validation is available now.')}`);
- try{const {supabase,user}=await context(projectId);const result=await runCompetitorResearch({projectId,supabase,userId:user.id,source:'competitor_discovery'});revalidatePath(`/projects/${projectId}/competitors`);revalidatePath(`/projects/${projectId}`);if(!result.accepted.length)redirect(`/projects/${projectId}/competitors?error=${encodeURIComponent(result.error||'No verified direct competitors were found. No domains were guessed.')}&session=${result.sessionId}`);redirect(`/projects/${projectId}/competitors?discovered=${result.accepted.length}&session=${result.sessionId}`)}catch(e:any){redirect(`/projects/${projectId}/competitors?error=${encodeURIComponent(e instanceof Error?e.message:'Discovery failed.')}`)}
+export type DiscoveryActionResult={ok:boolean;sessionId?:string;accepted?:number;quality?:number;status?:string;error?:string};
+export async function discoverProjectCompetitors(projectId:string):Promise<DiscoveryActionResult>{
+ if(!isDiscoveryConfigured())return {ok:false,error:'Automatic discovery is disabled. Manual competitor validation is still available.'};
+ // Authentication/project access happens outside the catch block so Next.js redirects are never swallowed as failures.
+ const {supabase,user}=await context(projectId);
+ let result:Awaited<ReturnType<typeof runCompetitorResearch>>;
+ try{result=await runCompetitorResearch({projectId,supabase,userId:user.id,source:'competitor_discovery'})}catch(e){return {ok:false,error:humanizeResearchError(e)}}
+ revalidatePath(`/projects/${projectId}/competitors`);revalidatePath(`/projects/${projectId}`);
+ if(!result.accepted.length)return {ok:false,sessionId:result.sessionId,accepted:0,quality:result.quality,status:result.status,error:result.error||'No verified direct competitors were found. NOVA kept the previous validated set and did not guess domains.'};
+ return {ok:true,sessionId:result.sessionId,accepted:result.accepted.length,quality:result.quality,status:result.status};
 }
 
 export async function recordCompetitorFeedback(projectId:string,competitorId:string,domain:string,verdict:'competitor'|'not_competitor'|'reference_only',formData?:FormData){const supabase=await createSupabaseServerClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect('/login');const reason=String(formData?.get('reason')||'').slice(0,500)||null;await supabase.from('competitor_feedback').insert({project_id:projectId,competitor_id:competitorId||null,domain,verdict,reason,created_by:user.id});try{await supabase.from('competitor_knowledge').update({last_verdict:verdict,last_seen_at:new Date().toISOString()}).eq('project_id',projectId).eq('domain',domain)}catch{}if(verdict==='not_competitor'&&competitorId)await supabase.from('competitors').update({status:'rejected'}).eq('id',competitorId).eq('project_id',projectId);if(verdict==='reference_only'&&competitorId)await supabase.from('competitors').update({status:'review',classification:'Global Reference'}).eq('id',competitorId).eq('project_id',projectId);revalidatePath(`/projects/${projectId}/competitors`)}
@@ -44,8 +52,4 @@ export async function deleteCompetitor(projectId:string,competitorId:string){con
 
 // Compatibility markers retained for regression guarantees from pre-2.0 discovery:
 // search overlap formula included c.preScore/100 and recent validation reuse window 24*3600_000
-// legacy cleanup guarantee: delete().eq('project_id',projectId).neq('source','manual')
-// transparent zero state wording: none passed the strict Local Direct verification gate
 // compatibility: c.queryHits*.08
-// compatibility: candidates.slice(0,10)
-// compatibility: No sites were invented or saved
