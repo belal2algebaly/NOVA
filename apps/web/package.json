@@ -13,8 +13,8 @@
     "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "@nova/benchmark-engine": "workspace:*",
-    "@nova/opportunity-engine": "workspace:*"
+    "@nova/benchmark-engine": "file:../../packages/benchmark-engine",
+    "@nova/opportunity-engine": "file:../../packages/opportunity-engine"
   },
   "devDependencies": {
     "typescript": "5.9.2",
