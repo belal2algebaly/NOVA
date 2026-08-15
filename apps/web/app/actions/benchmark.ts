@@ -5,6 +5,7 @@ import {createSupabaseServerClient} from '../../lib/supabase/server';
 import {scanUrl} from '../../lib/audit/server-scanner';
 import {benchmarkRuns} from '@nova/benchmark-engine';
 import {opportunitiesFromBenchmark} from '@nova/opportunity-engine';
+import {effortForOpportunity,decisionScore} from '../../lib/intelligence/opportunity';
 
 export async function runBenchmark(projectId:string){
  const supabase=await createSupabaseServerClient(); const {data:{user}}=await supabase.auth.getUser(); if(!user)redirect('/login');
@@ -21,7 +22,8 @@ export async function runBenchmark(projectId:string){
    const opportunities=opportunitiesFromBenchmark(result);
    const {data:bench,error}=await supabase.from('benchmarks').insert({project_id:projectId,result:{...result,own:{url:store.url,page:own.page,site:own.site},competitors:competitorRuns.map(x=>({id:x.id,name:x.name,url:x.report.url,page:x.report.page,site:x.report.site}))}}).select('id').single();
    if(error)throw error;
-   for(const o of opportunities){await supabase.from('opportunities').upsert({project_id:projectId,key:o.key,title:o.title,impact:o.impact,confidence:String(o.confidence),confidence_score:o.confidence,priority:o.priority,evidence:{store:o.evidence,competitive:o.competitorEvidence},recommendation:o.recommendation,status:'identified'},{onConflict:'project_id,key'});}
+   for(const o of opportunities){const effort=effortForOpportunity(o.title,o.recommendation);const score=decisionScore(o.priority,o.confidence,o.impact,effort);await supabase.from('opportunities').upsert({project_id:projectId,key:o.key,title:o.title,impact:o.impact,confidence:String(o.confidence),confidence_score:o.confidence,priority:o.priority,decision_score:score,effort,opportunity_type:'CRO',source:'benchmark',evidence:{store:o.evidence,competitive:o.competitorEvidence},recommendation:o.recommendation,status:'identified'},{onConflict:'project_id,key'});}
+   await supabase.from('notifications').insert({project_id:projectId,kind:'workflow',title:'Benchmark refreshed',body:`${opportunities.length} evidence-backed opportunities were ranked`,href:`/projects/${projectId}/opportunities`});
    revalidatePath(`/projects/${projectId}`); revalidatePath(`/projects/${projectId}/benchmark`); revalidatePath(`/projects/${projectId}/opportunities`);
    redirect(`/projects/${projectId}/benchmark?run=${bench?.id||''}`);
  }catch(e){redirect(`/projects/${projectId}/benchmark?error=${encodeURIComponent(e instanceof Error?e.message:'Benchmark failed.')}`)}

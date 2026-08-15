@@ -32,3 +32,16 @@ See `docs/PRODUCTION-RUNBOOK.md`. Run Supabase migrations in numeric order, conf
 - Auth callback routes the root admin to `/admin`
 - Premium full-width rotating developer dock
 - Setup guide: `docs/AUTH-GOOGLE-EMAIL-SETUP.md`
+
+
+## Phase 18 — UI / Contrast / Responsive Optimization
+A full visual-system pass improves contrast, typography, spacing, component density, responsive navigation, admin tables, competitor cards and motion without changing product logic or requiring a database migration. See `docs/PHASE-18-UI-OPTIMIZATION.md`.
+
+
+## NOVA 1.1 — Intelligence & Monitoring
+
+This build adds Monitoring V2, Product & Pricing Intelligence, Opportunity Engine V2, zero-cost NOVA Analyst, public report sharing, onboarding and notifications.
+
+After upgrading an existing Supabase project, run `infra/supabase/010_nova_11_intelligence.sql` once.
+
+Optional: set `NEXT_PUBLIC_APP_URL=https://nova-eynk.vercel.app` in Vercel so generated share URLs are displayed as complete URLs inside the Reports screen.

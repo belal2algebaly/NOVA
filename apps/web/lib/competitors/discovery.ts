@@ -1,40 +1,16 @@
 import 'server-only';
 import type {StoreProfile} from './store-intelligence';
-
-export type Candidate={url:string;title:string;snippet:string;source:string;rank:number};
-
+export type Candidate={url:string;title:string;snippet:string;source:string;rank:number;scope:'local'|'regional'|'global'};
 type RawResult={url?:string;title?:string;content?:string;snippet?:string};
-
 const DIRECTORY_URL='https://searx.space/data/instances.json';
-const BLOCKED=/facebook|instagram|tiktok|youtube|amazon|noon|wikipedia|linkedin|pinterest|x\.com|twitter/i;
-
-function cleanBase(value:string){return value.trim().replace(/\/+$/,'')}
-function timeoutSignal(ms:number){const controller=new AbortController();setTimeout(()=>controller.abort(),ms);return controller.signal}
-function decodeHtml(value:string){return value.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim()}
-
-function normalizeResults(results:RawResult[],own:string,source:string,offset=0):Candidate[]{const out:Candidate[]=[];for(const [i,x] of results.entries()){try{if(!x.url)continue;const u=new URL(x.url);if(!/^https?:$/.test(u.protocol))continue;const d=u.hostname.replace(/^www\./,'').toLowerCase();if(!d||d===own||d.endsWith(`.${own}`)||BLOCKED.test(d))continue;out.push({url:`${u.protocol}//${u.host}`,title:decodeHtml(x.title||d),snippet:decodeHtml(x.content||x.snippet||''),source,rank:offset+i+1})}catch{}}return out}
-
+const BLOCKED=/facebook|instagram|tiktok|youtube|amazon|noon|wikipedia|linkedin|pinterest|x\.com|twitter|temu|shein/i;
+const REGION:any={'Egypt':'MENA','Saudi Arabia':'GCC','UAE':'GCC','Kuwait':'GCC','Qatar':'GCC','Bahrain':'GCC'};
+function cleanBase(value:string){return value.trim().replace(/\/+$/,'')}function timeoutSignal(ms:number){const c=new AbortController();setTimeout(()=>c.abort(),ms);return c.signal}function decodeHtml(v:string){return v.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim()}
+function normalizeResults(results:RawResult[],own:string,source:string,scope:Candidate['scope'],offset=0):Candidate[]{const out:Candidate[]=[];for(const [i,x] of results.entries()){try{if(!x.url)continue;const u=new URL(x.url);if(!/^https?:$/.test(u.protocol))continue;const d=u.hostname.replace(/^www\./,'').toLowerCase();if(!d||d===own||d.endsWith(`.${own}`)||BLOCKED.test(d))continue;out.push({url:`${u.protocol}//${u.host}`,title:decodeHtml(x.title||d),snippet:decodeHtml(x.content||x.snippet||''),source,rank:offset+i+1,scope})}catch{}}return out}
 function parseSearxHtml(html:string):RawResult[]{const results:RawResult[]=[];const articles=html.match(/<article\b[\s\S]*?<\/article>/gi)||[];for(const article of articles){const href=article.match(/<a[^>]+href=["']([^"']+)["'][^>]*>/i)?.[1];if(!href)continue;const title=article.match(/<h3[^>]*>([\s\S]*?)<\/h3>/i)?.[1]||article.match(/<a[^>]*>([\s\S]*?)<\/a>/i)?.[1]||'';const content=article.match(/<(?:p|div)[^>]+class=["'][^"']*(?:content|result-content)[^"']*["'][^>]*>([\s\S]*?)<\/(?:p|div)>/i)?.[1]||'';results.push({url:decodeHtml(href),title:decodeHtml(title),content:decodeHtml(content)})}return results}
-
-async function searchInstance(base:string,query:string):Promise<RawResult[]>{const root=cleanBase(base);const params=new URLSearchParams({q:query,language:'all',safesearch:'0',categories:'general'});
-  try{const r=await fetch(`${root}/search?${params.toString()}&format=json`,{headers:{Accept:'application/json','User-Agent':'NOVA-Competitor-Research/1.0'},cache:'no-store',signal:timeoutSignal(4500)});if(r.ok){const j:any=await r.json();if(Array.isArray(j?.results)&&j.results.length)return j.results}}
-  catch{}
-  const r=await fetch(`${root}/search?${params.toString()}`,{headers:{Accept:'text/html','User-Agent':'Mozilla/5.0 NOVA-Competitor-Research/1.0'},cache:'no-store',signal:timeoutSignal(4500)});if(!r.ok)throw new Error(`HTTP ${r.status}`);const html=await r.text();const parsed=parseSearxHtml(html);if(!parsed.length)throw new Error('No usable search results');return parsed
-}
-
-async function freeInstances():Promise<string[]>{const explicit=process.env.SEARXNG_URL;if(explicit)return [cleanBase(explicit)];try{const r=await fetch(DIRECTORY_URL,{headers:{Accept:'application/json'},cache:'no-store',signal:timeoutSignal(4000)});if(!r.ok)return [];const data:any=await r.json();const entries=Object.entries<any>(data?.instances||{});return entries.filter(([url,v])=>url.startsWith('https://')&&v?.http?.status_code===200&&!v?.http?.error&&!(v?.comments?.length)).sort((a,b)=>(a[1]?.timing?.search?.all?.median||9)-(b[1]?.timing?.search?.all?.median||9)).slice(0,10).map(([url])=>cleanBase(url))}catch{return []}}
-
+async function searchInstance(base:string,query:string):Promise<RawResult[]>{const root=cleanBase(base);const params=new URLSearchParams({q:query,language:'all',safesearch:'0',categories:'general'});try{const r=await fetch(`${root}/search?${params.toString()}&format=json`,{headers:{Accept:'application/json','User-Agent':'NOVA-Competitor-Research/1.2'},cache:'no-store',signal:timeoutSignal(5000)});if(r.ok){const j:any=await r.json();if(Array.isArray(j?.results)&&j.results.length)return j.results}}catch{}const r=await fetch(`${root}/search?${params.toString()}`,{headers:{Accept:'text/html','User-Agent':'Mozilla/5.0 NOVA-Competitor-Research/1.2'},cache:'no-store',signal:timeoutSignal(5000)});if(!r.ok)throw new Error(`HTTP ${r.status}`);const parsed=parseSearxHtml(await r.text());if(!parsed.length)throw new Error('No usable search results');return parsed}
+async function freeInstances():Promise<string[]>{const explicit=process.env.SEARXNG_URL;if(explicit)return [cleanBase(explicit)];try{const r=await fetch(DIRECTORY_URL,{headers:{Accept:'application/json'},cache:'no-store',signal:timeoutSignal(4000)});if(!r.ok)return [];const data:any=await r.json();return Object.entries<any>(data?.instances||{}).filter(([url,v])=>url.startsWith('https://')&&v?.http?.status_code===200&&!v?.http?.error&&!(v?.comments?.length)).sort((a,b)=>(a[1]?.timing?.search?.all?.median||9)-(b[1]?.timing?.search?.all?.median||9)).slice(0,10).map(([url])=>cleanBase(url))}catch{return []}}
 export function isDiscoveryConfigured(){return process.env.DISABLE_FREE_DISCOVERY!=='true'}
-
-export async function discoverCandidates(profile:StoreProfile):Promise<Candidate[]>{if(!isDiscoveryConfigured())return [];
-  const categoryTerms=[...profile.categories,...profile.productTerms].filter(Boolean).slice(0,5).join(' ');
-  const keywordTerms=[...profile.keywords,...profile.productTerms].filter(Boolean).slice(0,5).join(' ');
-  const market=profile.marketHints[0]||profile.currencies[0]||'';
-  const queries=[`${categoryTerms||keywordTerms} ${market} online store`,`${keywordTerms||categoryTerms} ${market} shop brand`].map(x=>x.replace(/\s+/g,' ').trim()).filter((x,i,a)=>x&&a.indexOf(x)===i);
-  const instances=await freeInstances();if(!instances.length)throw new Error('Free competitor search is temporarily unavailable. Manual URL validation still works.');
-  let lastError='';
-  for(const base of instances.slice(0,6)){try{const combined:Candidate[]=[];for(const [qIndex,q] of queries.entries()){const raw=await searchInstance(base,q);combined.push(...normalizeResults(raw,profile.domain,'searxng',qIndex*20))}
-      const unique=[...new Map(combined.map(x=>[x.url,x])).values()].sort((a,b)=>a.rank-b.rank).slice(0,10);if(unique.length)return unique
-    }catch(e){lastError=e instanceof Error?e.message:String(e)}}
-  throw new Error(`Free competitor search is temporarily unavailable${lastError?`: ${lastError}`:''}. Manual URL validation still works.`)
-}
+function queries(profile:StoreProfile){const cats=(profile.categories.length?profile.categories:profile.productTerms).slice(0,4).join(' ');const kws=profile.keywords.slice(0,4).join(' ');const market=profile.primaryMarket||profile.marketHints[0]||'';const currency=profile.currencies[0]||'';const lang=profile.languageFamily==='Arabic'?'Arabic':profile.languageFamily==='Mixed'?'Arabic English':'';const regional=REGION[market]||'Middle East';const base=cats||kws;const items:{q:string;scope:Candidate['scope']}[]=[];if(market)items.push({q:`${base} online store ${market} ${currency} ${lang}`,scope:'local'},{q:`${base} ${market} local brand shop`,scope:'local'});items.push({q:`${base} ${regional} online store ${lang}`,scope:'regional'});items.push({q:`${base} online store brand`,scope:'global'});return items.map(x=>({...x,q:x.q.replace(/\s+/g,' ').trim()})).filter((x,i,a)=>x.q&&a.findIndex(y=>y.q===x.q)===i)}
+export async function discoverCandidates(profile:StoreProfile):Promise<Candidate[]>{if(!isDiscoveryConfigured())return [];const instances=await freeInstances();if(!instances.length)throw new Error('Free competitor search is temporarily unavailable. Manual URL validation still works');const qs=queries(profile);let lastError='';for(const base of instances.slice(0,6)){try{const combined:Candidate[]=[];for(const [i,item] of qs.entries()){const raw=await searchInstance(base,item.q);combined.push(...normalizeResults(raw,profile.domain,'searxng',item.scope,i*30));if(combined.filter(x=>x.scope==='local').length>=8)break}const seen=new Map<string,Candidate>();for(const c of combined){const prev=seen.get(c.url);if(!prev||scopeRank(c.scope)<scopeRank(prev.scope)||c.rank<prev.rank)seen.set(c.url,c)}const unique=[...seen.values()].sort((a,b)=>scopeRank(a.scope)-scopeRank(b.scope)||a.rank-b.rank).slice(0,14);if(unique.length)return unique}catch(e){lastError=e instanceof Error?e.message:String(e)}}throw new Error(`Free competitor search is temporarily unavailable${lastError?`: ${lastError}`:''}. Manual URL validation still works`)}
+function scopeRank(s:Candidate['scope']){return s==='local'?0:s==='regional'?1:2}
