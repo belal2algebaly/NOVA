@@ -15,4 +15,4 @@ Do **not** set the Root Directory to `apps/web`; the web app consumes local shar
 
 Copy the keys listed in `.env.example` into Vercel → Project Settings → Environment Variables.
 
-At minimum, Supabase URL and keys must be configured before authenticated/project flows can work. `SERPER_API_KEY` is required only for automatic competitor discovery. Cron/monitoring secrets are required only for those production endpoints.
+At minimum, Supabase URL and keys must be configured before authenticated/project flows can work. Automatic competitor discovery uses free SearXNG metasearch and needs no paid API key. `SEARXNG_URL` is optional if you later host your own instance. Cron/monitoring secrets are required only for those production endpoints.

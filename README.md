@@ -13,7 +13,7 @@ NOVA does not treat presence as quality and does not treat missing evidence as a
 
 ## External services
 - Supabase: required for persisted app usage.
-- Serper: optional but required for automatic competitor discovery. Manual validation works without it.
+- Competitor discovery: free SearXNG metasearch by default. No paid search API key required; `SEARXNG_URL` is optional for a dedicated instance.
 - Production scheduler: required to invoke the protected monitoring cron route.
 
 ## Setup

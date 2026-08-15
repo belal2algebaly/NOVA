@@ -3,7 +3,7 @@ const action=fs.readFileSync('apps/web/app/actions/competitors.ts','utf8');const
 test('profile comparison separates match from confidence',()=>{const a={keywords:['abaya','linen'],categories:['abaya'],currencies:['SAR'],marketHints:['Saudi Arabia'],priceMedian:300,productTerms:['abaya']};const b={keywords:['abaya','linen'],categories:['abaya'],currencies:['SAR'],marketHints:['Saudi Arabia'],priceMedian:320,productTerms:['abaya']};const r=compareProfiles(a,b);assert.ok(r.match>=85);assert.equal(r.confidence,85);});
 test('missing signals reduce confidence rather than match',()=>{const r=compareProfiles({keywords:['abaya']},{keywords:['abaya']});assert.equal(r.match,100);assert.ok(r.confidence<100);});
 test('jaccard returns null when evidence is absent',()=>assert.equal(jaccard([],[]),null));
-test('automatic discovery is provider-gated',()=>{assert.match(discovery,/SERPER_API_KEY/);assert.match(discovery,/google\.serper\.dev/)});
+test('automatic discovery is free SearXNG with failover',()=>{assert.match(discovery,/searx\.space\/data\/instances\.json/);assert.match(discovery,/SEARXNG_URL/);assert.match(discovery,/format=json/);assert.doesNotMatch(discovery,/SERPER_API_KEY|google\.serper\.dev/)});
 test('candidate validation crawls store before saving',()=>{assert.match(action,/understandStore\(url\)/);assert.match(action,/compareStores/);assert.match(action,/validated_at/)});
 test('store understanding extracts prices categories and market hints',()=>{assert.match(intelligence,/getPrices/);assert.match(intelligence,/categoryLinks/);assert.match(intelligence,/marketHints/)});
 test('competitor UI shows match and confidence separately',()=>{assert.match(page,/Match ≠ Confidence/);assert.match(page,/confidence_score/)});

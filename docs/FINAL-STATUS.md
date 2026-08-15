@@ -11,7 +11,7 @@ Supabase authentication, workspace/project/store persistence, RLS, protected rou
 Server URL audits, page/platform detection, evidence-based findings, history persistence, SSRF protection. Rendered-only checks remain Unknown server-side.
 
 ### Phase 4 — Competitor Intelligence
-Store understanding, manual candidate validation, match vs confidence scoring, profile pages, optional Serper discovery.
+Store understanding, manual candidate validation, match vs confidence scoring, profile pages, free SearXNG discovery.
 
 ### Phase 5 — Benchmark & Opportunities
 Same-engine comparison of store and competitors; Unknown-safe matrix; competitive gap generation; prioritized opportunity workflow.
@@ -25,7 +25,7 @@ Monitor targets, protected cron runner, material change events, intelligence rep
 ## Production boundaries requiring configuration
 1. Apply migrations 001–007 to Supabase.
 2. Configure required environment variables.
-3. Connect Serper if automatic discovery is required.
+3. Automatic discovery is free by default. Optionally connect a dedicated SearXNG instance for higher reliability later.
 4. Configure scheduler for `/api/cron/monitor`.
 5. Install npm dependencies and run `npm run build` in a network-enabled environment. The packaging environment timed out during `npm install`, so Next production compilation is not claimed as verified here.
 

@@ -4,7 +4,7 @@
 - NEXT_PUBLIC_SUPABASE_URL
 - NEXT_PUBLIC_SUPABASE_ANON_KEY
 - SUPABASE_SERVICE_ROLE_KEY (server only)
-- SERPER_API_KEY (optional, required for automatic competitor discovery)
+- SEARXNG_URL (optional; blank uses healthy public SearXNG instances with failover)
 - CRON_SECRET (required for monitoring endpoint)
 - NEXT_PUBLIC_NOVA_APP_URL
 
@@ -21,4 +21,4 @@ Configure a scheduler to call `GET /api/cron/monitor` with `Authorization: Beare
 Load `apps/extension` as an unpacked Chrome extension for QA. Open a project → Extension in the dashboard, copy Project ID and Extension Key into the popup, then save pairing. After a scan, use `Send audit to NOVA`.
 
 ## External dependency boundaries
-Automatic competitor discovery needs SERPER_API_KEY. Server-side audits can verify HTML evidence but rendered-only checks remain Unknown unless captured by the Chrome extension/browser layer. Monitoring only runs when a scheduler invokes the cron endpoint.
+Automatic competitor discovery uses free SearXNG metasearch; no paid search API key is required. Server-side audits can verify HTML evidence but rendered-only checks remain Unknown unless captured by the Chrome extension/browser layer. Monitoring only runs when a scheduler invokes the cron endpoint.
