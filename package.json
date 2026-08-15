@@ -1,7 +1,7 @@
 {
   "name": "nova-platform",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.3.1-ui20",
   "workspaces": [
     "apps/*",
     "packages/*"

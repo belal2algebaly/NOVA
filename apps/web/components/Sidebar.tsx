@@ -19,13 +19,13 @@ export async function Sidebar({projectId}:{projectId?:string}){
    {label:'Research',href:`${base}/research`,icon:'⌕'},
    {label:'Monitoring',href:`${base}/monitoring`,icon:'◌'},
    {label:'Products',href:`${base}/products`,icon:'▥'},
-   {label:'Analyst',href:`${base}/analyst`,icon:'✧'}]},
+   {label:'NOVA Analyst',href:`${base}/analyst`,icon:'✧',badge:'AI'}]},
   {label:'Output',items:[
    {label:'Notifications',href:`${base}/notifications`,icon:'◍'},
    {label:'Reports',href:`${base}/reports`,icon:'▤'},
    {label:'Extension',href:`${base}/extension`,icon:'⌁'}]}
  ]:[{label:'Workspace',items:[{label:'Projects',href:'/dashboard',icon:'◈'},{label:'New project',href:'/projects/new',icon:'＋'}]}];
- if(isSuperAdmin) sections.push({label:'System',items:[{label:'Super Admin',href:'/admin',icon:'♛',badge:'ALL'}]});
+ if(isSuperAdmin) sections.push({label:'System',items:[{label:'Super Admin',href:'/admin',icon:'♛',badge:'ALL'},{label:'System Status',href:'/admin/status',icon:'◉',badge:'LIVE'}]});
  return <aside className="sidebar">
   <div className="sidebarTop">
    <div className="brandZone"><Brand/><p className="tagline">E-commerce Intelligence</p></div>

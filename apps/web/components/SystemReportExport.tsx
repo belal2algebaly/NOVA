@@ -1,0 +1,2 @@
+'use client';
+export function SystemReportExport({report}:{report:any}){const download=()=>{const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`nova-system-report-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href)};return <button className="primary" onClick={download}>Export detailed report</button>}

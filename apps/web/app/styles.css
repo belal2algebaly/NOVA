@@ -502,3 +502,205 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .primary{background:linear-gradient(135deg,#754feb,#6840dd)!important;box-shadow:0 7px 18px rgba(97,60,205,.11)!important}.primary:hover{background:linear-gradient(135deg,#6840dd,#5d35ce)!important;transform:translateY(-2px)!important;box-shadow:0 11px 26px rgba(87,49,194,.17)!important}.ghost:hover{transform:translateY(-1px)}
 @keyframes novaCanvasIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.workspace{animation:none}.sidebar .navLink,.metric,.panel,.projectCard,.competitorCard,.threeAction>a,.primary,.ghost{transition:none!important}.metric:hover,.panel:hover,.threeAction>a:hover,.primary:hover{transform:none!important}}
+
+/* NOVA 1.3 — 20 phase experience system */
+.commandTrigger{position:fixed;right:20px;top:18px;z-index:70;height:38px;display:flex;align-items:center;gap:8px;padding:0 10px;border:1px solid #ddd6e8;border-radius:10px;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);color:#51455f;box-shadow:0 5px 18px rgba(48,31,72,.05);cursor:pointer}.commandTrigger>span{width:20px;height:20px;display:grid;place-items:center;border-radius:6px;background:#f0ebfb;color:#6540d7;font-size:10px}.commandTrigger b{font-size:11px;font-weight:650}.commandTrigger kbd,.commandPalette kbd{font:600 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#766d80;background:#f7f4fa;border:1px solid #e6e0eb;border-bottom-color:#d7cfdf;border-radius:5px;padding:4px 6px}.commandBackdrop{position:fixed;inset:0;z-index:200;background:rgba(31,22,43,.16);backdrop-filter:blur(5px);display:grid;place-items:start center;padding-top:min(18vh,150px);animation:fadeIn .15s ease}.commandPalette{width:min(92vw,620px);background:#fff;border:1px solid #dcd5e6;border-radius:17px;box-shadow:0 28px 80px rgba(42,28,63,.18);overflow:hidden;animation:commandIn .18s ease}.commandSearch{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:8px;padding:14px 15px;border-bottom:1px solid #ebe6f0}.commandSearch>span{color:#795add}.commandSearch input{border:0;box-shadow:none!important;padding:0;min-height:38px;font-size:14px}.commandResults{padding:7px;max-height:390px;overflow:auto}.commandResults>button{width:100%;border:0;background:transparent;border-radius:10px;padding:11px 12px;display:flex;align-items:center;justify-content:space-between;text-align:left;color:#2d223d;cursor:pointer}.commandResults>button.active{background:#f3effc}.commandResults b{display:block;font-size:12px}.commandResults small{display:block;color:#786f82;font-size:10px;margin-top:2px}.commandEmpty{padding:28px;text-align:center;color:#7c7486;font-size:12px}.commandPalette footer{display:flex;gap:15px;padding:10px 14px;border-top:1px solid #eee9f2;background:#fbfafd;color:#81788b;font-size:9px}.nextAction{margin:14px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 22px;border:1px solid #dcd3ee;border-left:3px solid var(--accent);border-radius:14px;background:linear-gradient(105deg,#fff 0%,#faf7ff 100%);box-shadow:0 8px 24px rgba(76,48,118,.04)}.nextAction h2{margin:4px 0 5px!important}.nextAction p:not(.eyebrow){margin:0;color:#675d72;font-size:12px;max-width:72ch}.confidenceBadge{display:inline-flex;align-items:center;gap:5px;border:1px solid #ded8e7;padding:5px 7px;border-radius:999px;background:#faf9fc;color:#62596d}.confidenceBadge i{width:6px;height:6px;border-radius:50%;background:#9c93a7}.confidenceBadge b{font-size:10px}.confidenceBadge small{font-size:8px}.confidenceBadge.high i{background:#2a9a6d}.confidenceBadge.medium i{background:#c48a2b}.confidenceBadge.low i{background:#c25267}.freshness{display:inline-flex;align-items:center;gap:5px;color:#726979;font-size:9px}.freshness i{width:6px;height:6px;border-radius:50%;background:#aaa1b3}.freshness.fresh i{background:#2b9b6d}.freshness.aging i{background:#c28b31}.freshness.stale i{background:#bd566a}.qualityMeter{padding:13px 0}.qualityMeter>div:first-child{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#645a70}.qualityMeter b{color:#342444}.qualityTrack{height:6px;background:#eee9f3;border-radius:99px;overflow:hidden;margin:7px 0}.qualityTrack i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6d47e4,#9478ec)}.qualityMeter small{font-size:9px;color:#7a7184}.activityStream{display:flex;flex-direction:column}.activityItem{display:grid;grid-template-columns:11px 1fr auto;gap:11px;align-items:start;padding:12px 0;border-top:1px solid #eee9f1}.activityItem:first-child{border-top:0}.activityItem>i{width:7px;height:7px;border-radius:50%;background:#7d5be0;margin-top:5px;box-shadow:0 0 0 4px #f1edfb}.activityItem b{font-size:11px;color:#38294a}.activityItem p{font-size:10px;color:#706779;margin:2px 0 0}.activityItem time{font-size:9px;color:#8a8291;white-space:nowrap}.qualityGate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:13px 0 19px}.qualityGate>div{padding:13px 14px;border:1px solid #e5dfea;border-radius:11px;background:#fbf9fd}.qualityGate span{display:block;color:#766c81;font-size:9px}.qualityGate strong{display:block;color:#332242;font-size:18px;margin-top:3px}.smartEmpty{padding:30px;text-align:center;border:1px dashed #d9d1e3;border-radius:13px;background:#fcfbfd}.smartEmpty h3{margin:0 0 6px}.smartEmpty p{margin:0 auto 14px;color:#746a7d;max-width:54ch;font-size:11px}.analystContext{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}.analystContext>div{border:1px solid #e7e1ec;border-radius:10px;padding:10px;background:#fcfbfd}.analystContext span{display:block;font-size:8px;color:#7b7285;text-transform:uppercase;letter-spacing:.08em}.analystContext b{display:block;font-size:13px;margin-top:4px;color:#38284b}.notificationFilters{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}.notificationFilters a{padding:7px 10px;border:1px solid #ded7e6;border-radius:999px;color:#6d6377;font-size:10px;background:#fff}.notificationFilters a.active{background:#eee8ff;border-color:#cfc1f0;color:#5334b6}.adminInsightStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 18px}.adminInsightStrip>div{padding:14px;border:1px solid #e4deea;border-radius:11px;background:#fcfbfd}.adminInsightStrip span{font-size:9px;color:#766d80}.adminInsightStrip b{display:block;font-size:15px;color:#342447;margin-top:4px}.focusRing:focus-visible{outline:3px solid rgba(104,65,232,.2);outline-offset:3px}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes commandIn{from{opacity:0;transform:translateY(-8px) scale(.985)}to{opacity:1;transform:none}}
+@media(max-width:850px){.commandTrigger{top:auto;right:12px;bottom:78px}.commandTrigger b,.commandTrigger kbd{display:none}.nextAction{align-items:flex-start;flex-direction:column}.qualityGate{grid-template-columns:1fr 1fr}.analystContext{grid-template-columns:1fr 1fr}.adminInsightStrip{grid-template-columns:1fr}}
+@media(max-width:520px){.qualityGate,.analystContext{grid-template-columns:1fr}.commandBackdrop{padding-top:9vh}.commandPalette{width:94vw}.commandPalette footer{display:none}}
+
+/* ========================================================================
+   NOVA 1.3.1 — UI20 / 20-PHASE VISUAL REFORGE
+   High-contrast, premium, information-first interface
+   ======================================================================== */
+
+/* Phase 01 — Accessible high-contrast design tokens */
+:root{
+  --bg:#f7f7fa;
+  --panel:#ffffff;
+  --panel2:#fbfbfd;
+  --soft:#f3f1f7;
+  --line:#dedbe5;
+  --line-strong:#c8c2d2;
+  --text:#181221;
+  --text-2:#342b3e;
+  --muted:#625a6c;
+  --muted-2:#766f7e;
+  --accent:#6541d8;
+  --accent-hover:#5533c2;
+  --accent-soft:#f0ebff;
+  --accent-ink:#3d218f;
+  --good:#147a55;
+  --warn:#94610b;
+  --bad:#b82f4c;
+  --radius:14px;
+  --radius-sm:10px;
+  --radius-lg:20px;
+  --sidebar-w:240px;
+  --page-max:1540px;
+  --shadow-card:0 1px 2px rgba(28,18,41,.035),0 7px 22px rgba(28,18,41,.025);
+  --shadow-float:0 18px 46px rgba(36,22,55,.10);
+  --nova-ease:cubic-bezier(.2,.72,.2,1);
+}
+html{background:var(--bg)}
+body{background:linear-gradient(180deg,#faf9fc 0,#f7f7fa 42%,#f5f5f8 100%);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* Phase 02 — Legibility floor: no faint micro-copy */
+body,.workspace,.panel,.metric,.projectCard,.competitorCard{color:var(--text)}
+.muted,.tagline,.panelNote,.finding p,.facts dt,.metric small,.projectCard>p,.commandResults small,.activityItem p,.qualityMeter small,.smartEmpty p{color:var(--muted)!important}
+small,.metric span,.projectTop,.facts,.pill,.meta span{color:var(--muted)}
+.workspace p,.panel p,.authHeading p,.heroCopy p{color:var(--text-2)}
+
+/* Phase 03 — New type scale + restrained weights */
+.workspace h1,.authHeading h1{font-size:clamp(2rem,3vw,2.75rem)!important;line-height:1.04;letter-spacing:-.045em;font-weight:720!important;color:#17101f!important}
+.workspace h2,.panel h2{font-size:clamp(1.1rem,1.6vw,1.35rem)!important;line-height:1.18;letter-spacing:-.025em;font-weight:680!important;color:#21182b!important}
+.workspace h3,.panel h3{font-size:.95rem!important;font-weight:660!important;color:#2a2033!important}
+.eyebrow{font-size:.66rem!important;letter-spacing:.14em!important;font-weight:750!important;color:#5c38c5!important}
+.pageHeader .muted{font-size:.84rem!important;line-height:1.65!important;color:#5d5566!important}
+
+/* Phase 04 — Spacious command canvas */
+.workspace{padding:36px clamp(24px,3.5vw,56px) 54px!important;max-width:var(--page-max)!important}
+.pageHeader{position:relative!important;top:auto!important;margin:0 0 26px!important;padding:0 0 22px!important;background:transparent!important;border-bottom:1px solid var(--line)!important;align-items:flex-end!important}
+.pageHeader:after{display:none!important}
+.pageHeader>div:first-child{max-width:820px}
+
+/* Phase 05 — Sidebar becomes quiet navigation rail */
+.sidebar{width:var(--sidebar-w)!important;background:#fff!important;border-right:1px solid var(--line)!important;padding:22px 14px 84px!important;box-shadow:none!important;backdrop-filter:none!important}
+.sidebarTop{min-width:0}
+.brandZone{padding:0 8px 18px!important;border-bottom:1px solid #ece9f0!important}
+.sidebar .brandmark{font-size:25px!important;letter-spacing:-1.45px!important;color:#17101f!important}
+.sidebar .brandmark span{background:#6a45da!important;color:#fff!important;box-shadow:none!important}
+.sidebar .tagline{font-size:.65rem!important;color:#68606f!important}
+.workspaceMode{margin:15px 5px 9px!important;padding:9px 10px!important;background:#f8f6fc!important;border:1px solid #e6e1ec!important;border-radius:10px!important;color:#473a56!important}
+.workspaceMode span{color:#5d38c7!important;background:#eee9ff!important}
+.navSectionLabel{color:#77707f!important;font-size:.58rem!important;font-weight:760!important;letter-spacing:.12em!important;margin:18px 10px 7px!important}
+.sidebar .navLink{min-height:41px!important;border-radius:9px!important;padding:9px 10px!important;color:#4b4254!important;font-size:.76rem!important;font-weight:600!important;border:1px solid transparent!important;box-shadow:none!important;transform:none!important}
+.sidebar .navLink:hover{background:#f7f5fa!important;border-color:#ebe7ef!important;color:#21172d!important}
+.sidebar .navLink.active{background:#eee9ff!important;border-color:#ddd2fa!important;color:#3f2498!important;font-weight:680!important}
+.sidebar .navLink.active:before{background:#6541d8!important;box-shadow:none!important}
+.navIcon{color:#6844ce!important;opacity:.9}
+
+/* Phase 06 — Section rhythm instead of box soup */
+.grid,.two,.projectGrid,.competitorCards,.qualityGate,.analystContext,.adminInsightStrip{gap:14px!important}
+.panel,.metric,.projectCard,.competitorCard,.projectForm,.emptyState,.adminHero{border:1px solid var(--line)!important;background:#fff!important;box-shadow:var(--shadow-card)!important}
+.panel{padding:22px!important}
+.panel+.panel{margin-top:0}
+.two{margin-bottom:16px!important}
+
+/* Phase 07 — Metrics become editorial data tiles */
+.metric{padding:18px 19px 17px!important;min-height:122px!important;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.metric:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#7652dd;opacity:.85}
+.metric span{font-size:.68rem!important;font-weight:650!important;color:#5c5365!important}
+.metric strong{font-size:clamp(1.8rem,2.4vw,2.3rem)!important;color:#23152f!important;font-weight:700!important;letter-spacing:-.05em!important;margin:.65rem 0 .3rem!important}
+.metric small{font-size:.7rem!important;color:#625a6c!important;line-height:1.45}
+.metric:hover{transform:none!important;border-color:#cfc8d7!important;box-shadow:0 8px 26px rgba(35,22,52,.055)!important}
+
+/* Phase 08 — Premium panels with stronger hierarchy */
+.panelhead{padding-bottom:13px;margin-bottom:2px;border-bottom:1px solid #eeeaf1}
+.panelhead .eyebrow{margin-bottom:3px}
+.panelNote{font-size:.75rem!important;color:#5f5768!important;border-top-color:#e8e4eb!important}
+.facts div{padding:13px 0!important;border-top-color:#ece8ef!important;font-size:.76rem!important}
+.facts dt{font-weight:590;color:#655d6d!important}.facts dd{color:#2f2538!important;font-weight:570}
+
+/* Phase 09 — Buttons: less glow, more tactile clarity */
+.primary,.ghost,.linkButton{min-height:43px!important;border-radius:10px!important;font-size:.78rem!important;font-weight:670!important;box-shadow:none!important;transition:background .18s var(--nova-ease),border-color .18s var(--nova-ease),transform .18s var(--nova-ease),box-shadow .18s var(--nova-ease)!important}
+.primary{background:#6541d8!important;color:#fff!important;border:1px solid #6541d8!important}
+.primary:hover{background:#5533c2!important;border-color:#5533c2!important;transform:translateY(-1px)!important;box-shadow:0 8px 18px rgba(78,44,176,.13)!important}
+.ghost{background:#fff!important;color:#382d42!important;border-color:#cbc5d2!important}
+.ghost:hover{background:#f8f7fa!important;border-color:#aba2b7!important;color:#1e1627!important;transform:translateY(-1px)!important}
+button:disabled,.primary:disabled,.ghost:disabled{opacity:.56;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+
+/* Phase 10 — Inputs/forms with visible states */
+.form input,.inlineForm input,.projectForm input,input{min-height:46px!important;background:#fff!important;border:1px solid #cfc9d5!important;color:#1e1627!important;border-radius:10px!important;font-size:.83rem!important}
+input::placeholder{color:#847c8b!important;opacity:1}
+.form input:focus,.inlineForm input:focus,.projectForm input:focus,input:focus{border-color:#7353d2!important;box-shadow:0 0 0 3px rgba(101,65,216,.13)!important}
+.form label{font-size:.76rem!important;color:#3e3448!important;font-weight:650!important}
+.form small{color:#625a6b!important;font-size:.7rem!important}
+
+/* Phase 11 — Status system with stronger semantic contrast */
+.statusDot,.classBadge,.rolePill,.accountState,.pill,.confidenceBadge{font-weight:680!important}
+.statusDot.pass,.goodText{color:#0b704b!important}.statusDot.fail{color:#aa2541!important}.statusDot.warn,.statusDot.review,.warnText{color:#835407!important}.statusDot.unknown{color:#5c5563!important}
+.alert.error{color:#92213a!important;background:#fff4f6!important;border-color:#efbdc8!important}.alert.success{color:#116746!important;background:#f1fbf7!important;border-color:#bce7d4!important}.setupNotice{color:#65470f!important;background:#fff9ec!important;border-color:#ecd8a8!important}.setupNotice span{color:#73591e!important}
+
+/* Phase 12 — Tables: readable, calm, scan-friendly */
+.adminTableWrap{border-color:#dcd7e1!important;background:#fff!important}
+.adminTable{font-size:.75rem!important}
+.adminTable th{background:#f7f6f9!important;color:#4a4153!important;font-size:.67rem!important;font-weight:720!important;padding:12px 14px!important;border-bottom-color:#dcd7e1!important}
+.adminTable td{color:#302737!important;padding:13px 14px!important;border-bottom-color:#ebe7ee!important}
+.adminTable tbody tr:nth-child(even){background:#fcfbfd}.adminTable tbody tr:hover{background:#f5f2fa!important}
+.adminIdentity b{color:#261d30!important;font-size:.76rem!important}.adminIdentity small{color:#625a6c!important;font-size:.66rem!important}
+
+/* Phase 13 — Competitor Intelligence becomes a decision workspace */
+.marketHero>div,.competitorQuickStats>div,.qualityGate>div,.analystContext>div,.adminInsightStrip>div{background:#faf9fc!important;border-color:#e3dee8!important}
+.marketHero strong,.competitorQuickStats strong,.qualityGate strong,.analystContext b,.adminInsightStrip b{color:#271b35!important}
+.marketHero small,.competitorQuickStats span,.qualityGate span,.analystContext span,.adminInsightStrip span{color:#625a6c!important}
+.competitorCard{padding:17px!important;transition:border-color .18s var(--nova-ease),box-shadow .18s var(--nova-ease),transform .18s var(--nova-ease)!important}
+.competitorCard:hover{border-color:#c8bed8!important;box-shadow:0 10px 28px rgba(38,23,57,.06)!important;transform:translateY(-1px)!important}
+.competitorCardTop a b{color:#21172b!important;font-size:.87rem!important}.competitorCardTop a small{color:#645b6d!important;font-size:.67rem!important}
+.categoryLine p{color:#504758!important;font-size:.72rem!important;line-height:1.55}
+.competitorCardFoot{color:#665d70!important;font-size:.66rem!important}
+
+/* Phase 14 — Audit findings prioritize content over chrome */
+.auditLayout{gap:16px!important}.history{background:#fff!important}.historyRow{padding:13px 10px!important;border-top-color:#ebe7ee!important}.historyRow span{color:#665e6e!important;font-size:.66rem!important}.historyRow strong{color:#261a32!important;font-size:1.2rem!important}
+.finding{grid-template-columns:86px minmax(0,1fr) 28px!important;padding:17px 0!important;border-top-color:#ebe7ee!important}.finding h3{font-size:.87rem!important;color:#241a2c!important}.finding p{font-size:.75rem!important;color:#574f5f!important}.finding small{font-size:.69rem!important;color:#625a6b!important}
+
+/* Phase 15 — Empty states feel intentional, not blank */
+.emptyState,.smartEmpty{background:linear-gradient(180deg,#fff,#fbfafc)!important;border:1px dashed #cec7d6!important;box-shadow:none!important}
+.emptyState>span{background:#f0ebff!important;border-color:#ded4fa!important;color:#5b36c5!important}.emptyState h2,.smartEmpty h3{color:#21172b!important}.emptyState p,.smartEmpty p{color:#5b5363!important;font-size:.78rem!important}
+
+/* Phase 16 — Command palette is visually aligned with product */
+.commandTrigger{top:20px!important;right:24px!important;background:rgba(255,255,255,.96)!important;border-color:#d7d1dd!important;color:#403647!important;box-shadow:0 7px 20px rgba(35,21,53,.06)!important}
+.commandTrigger>span{background:#eee9ff!important;color:#5b36c5!important}.commandTrigger kbd,.commandPalette kbd{color:#554d5e!important;background:#f4f2f6!important;border-color:#dcd7e1!important}
+.commandBackdrop{background:rgba(24,16,34,.24)!important}.commandPalette{border-color:#d4ceda!important;box-shadow:0 28px 90px rgba(27,16,40,.2)!important}.commandResults>button{color:#241a2c!important}.commandResults>button.active{background:#eee9ff!important}.commandResults small{color:#625a6c!important}.commandPalette footer{color:#625a6c!important}
+
+/* Phase 17 — Next Best Action gets executive prominence */
+.nextAction{padding:20px 22px!important;background:#fff!important;border:1px solid #d8d0e4!important;border-left:4px solid #6541d8!important;box-shadow:0 8px 24px rgba(39,24,59,.045)!important}
+.nextAction h2{color:#21152d!important}.nextAction p:not(.eyebrow){color:#564e60!important;font-size:.76rem!important}.confidenceBadge{background:#f8f7fa!important;border-color:#d8d2de!important;color:#4e4557!important}.freshness{color:#625a6c!important}
+
+/* Phase 18 — Admin becomes a proper control room */
+.adminHero{background:linear-gradient(135deg,#fff 0%,#faf8ff 100%)!important;border-color:#d9d2e3!important;padding:22px 24px!important}
+.adminHero h1{font-size:clamp(2rem,3vw,2.65rem)!important}.adminInsightStrip>div{padding:15px 16px!important}.adminInsightStrip span{font-size:.66rem!important}.adminInsightStrip b{font-size:1rem!important}
+.adminProject{background:#fff!important;border-color:#ded9e4!important}.adminProject b{color:#281e32!important}.adminProject small{color:#625a6c!important}
+
+/* Phase 19 — Developer dock: premium signature, not competing chrome */
+body{padding-bottom:66px!important}.developerDock{height:66px!important;background:rgba(255,255,255,.97)!important;border-top:1px solid #dcd7e2!important;box-shadow:0 -5px 20px rgba(33,20,49,.035)!important}
+.developerDockInner{padding:0 clamp(18px,3vw,38px)!important;max-width:var(--page-max)!important}.developerMark{background:#6541d8!important;color:#fff!important;border-radius:9px!important}.developerSignature strong{color:#261c30!important;font-size:.71rem!important}.developerSignature div span{color:#625a6c!important}.developerRotator{color:#413748!important;font-size:.7rem!important}.developerMessage b{color:#4f2db6!important}.developerSocials a{border-color:#d6d0dc!important;color:#4f4658!important}.developerSocials a:hover{background:#f3effc!important;border-color:#bcaed6!important;color:#4e2bb8!important}
+
+/* Phase 20 — Responsive reflow + touch targets + visual stability */
+@media(max-width:1100px){
+  .workspace{padding-inline:28px!important}.grid,.adminMetrics,.adminSecondaryMetrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}.projectGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.two{grid-template-columns:1fr!important}
+}
+@media(max-width:780px){
+  body{font-size:15px}.shell{display:block!important}.sidebar{height:62px!important;width:100%!important;position:sticky!important;top:0!important;z-index:60!important;padding:9px 14px!important;border-right:0!important;border-bottom:1px solid var(--line)!important}.sidebarTop{display:flex;align-items:center;height:100%}.brandZone{padding:0!important;border:0!important}.sidebar .brandmark{font-size:22px!important}.brandZone .tagline,.workspaceMode,.sidebottom{display:none!important}
+  .novaNav{position:fixed!important;left:10px!important;right:10px!important;bottom:74px!important;z-index:9000!important;margin:0!important;padding:6px!important;display:flex!important;gap:4px!important;overflow-x:auto!important;background:rgba(255,255,255,.98)!important;border:1px solid #d5cfdb!important;border-radius:15px!important;box-shadow:0 14px 34px rgba(37,22,55,.13)!important;backdrop-filter:blur(18px)!important}.navSection{display:contents!important}.navSectionLabel{display:none!important}.navSectionLinks{display:contents!important}.sidebar .navLink{flex:0 0 74px!important;min-height:52px!important;padding:6px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:3px!important}.navLabel{font-size:.57rem!important;color:inherit!important}.navIcon{font-size:.9rem!important}
+  .workspace{padding:24px 16px 44px!important}.pageHeader{margin-bottom:20px!important;padding-bottom:18px!important;align-items:flex-start!important;flex-direction:column!important}.pageHeader h1{font-size:2rem!important}.pageHeader .muted{font-size:.8rem!important}.commandTrigger{top:auto!important;right:12px!important;bottom:84px!important}.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.projectGrid,.competitorCards,.marketHero,.researchColumns,.intelligenceGrid,.productIntelGrid,.sharedGrid{grid-template-columns:1fr!important}.metric{min-height:110px!important;padding:15px!important}.panel{padding:17px!important}.qualityGate,.analystContext{grid-template-columns:1fr 1fr!important}.nextAction{align-items:flex-start!important;flex-direction:column!important}.adminTable{min-width:820px!important}
+}
+@media(max-width:480px){
+  .workspace{padding-inline:12px!important}.grid{grid-template-columns:1fr!important}.metric{min-height:104px!important}.metric strong{font-size:2rem!important}.qualityGate,.analystContext,.adminInsightStrip{grid-template-columns:1fr!important}.pageHeader>.primary,.pageHeader>.ghost{width:100%!important}.commandPalette{width:95vw!important}.developerRotator{display:none!important}.developerDockInner{grid-template-columns:1fr auto!important;padding-inline:12px!important}.developerSignature div span{display:none!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
+/* NOVA 1.5 — Phase 10/17 System Intelligence + Contrast Hardening */
+:root{--text:#1d1427!important;--muted:#5f5667!important;--line:#d9d3df!important;--line-strong:#bdb5c7!important;--primary:#5b35c7!important;--primary-dark:#3e208f!important;--surface:#ffffff!important;--surface-soft:#f6f4f8!important}
+body{color:var(--text)!important;background:#f5f3f7!important;font-size:15px!important;line-height:1.55!important}
+p,.muted,.panelNote,.facts dt,.metric span,.metric small,.categoryLine p,.adminIdentity small{color:#5d5465!important}
+h1,h2,h3,b,strong{color:#21162d!important}.eyebrow{color:#5833bd!important}.workspace h1{color:#21162d!important}.pageHeader .muted{color:#5b5263!important;max-width:760px}
+.panel,.metric,.projectCard,.competitorCard,.adminHero{border-color:#d9d3df!important;box-shadow:0 3px 14px rgba(34,22,48,.045)!important}.panel:hover,.metric:hover,.competitorCard:hover{border-color:#c5bccf!important;box-shadow:0 8px 24px rgba(34,22,48,.065)!important}
+.sidebar{border-right-color:#d9d3df!important}.sidebar .navLink{color:#443a4d!important}.sidebar .navLink.active{color:#38207f!important;background:#eee8fb!important;border-color:#d7cbf5!important}.navSectionLabel{color:#635b6c!important}
+
+/* System status center */
+.statusMetrics{margin-top:22px!important}.statusWord{text-transform:capitalize!important;font-size:1.35rem!important;letter-spacing:-.02em!important}.statusWord.healthy{color:#08704a!important}.statusWord.warning{color:#8a5a05!important}.statusWord.error{color:#a32641!important}.statusGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}.statusCard{padding:16px;border:1px solid #ddd7e3;border-radius:13px;background:#fff}.statusCard>div{display:flex;align-items:center;gap:8px}.statusCard>strong{display:block;margin:10px 0 5px;text-transform:capitalize;font-size:.74rem}.statusCard p{margin:0;color:#5b5263;font-size:.74rem;line-height:1.5}.statusCard small{display:block;margin-top:7px;color:#6b6174;font-size:.67rem}.healthDot{width:9px;height:9px;border-radius:999px;display:inline-block;flex:0 0 auto}.healthDot.healthy{background:#169764;box-shadow:0 0 0 4px #e8f8f1}.healthDot.warning{background:#d58a16;box-shadow:0 0 0 4px #fff5df}.healthDot.error{background:#d64b67;box-shadow:0 0 0 4px #fff0f3}.healthDot.not_configured{background:#92899a;box-shadow:0 0 0 4px #f1eef3}.statusList{display:grid;gap:9px;margin-top:14px}.statusRow{display:flex;gap:12px;padding:13px;border:1px solid #e3dde7;border-radius:12px;background:#fff}.statusRow>div{min-width:0}.statusRow b{font-size:.8rem}.statusRow p{margin:3px 0;color:#51485a;font-size:.73rem}.statusRow small{color:#7b4a08;font-size:.68rem}.issuePanel{border-left:4px solid #d58a16!important}.adminHeaderActions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+/* AI is now available as a context layer across the product */
+.smartBrief{margin:14px 0 18px;border:1px solid #d8cfeb;border-radius:14px;background:linear-gradient(135deg,#fff,#faf8ff);overflow:hidden}.smartBriefButton{appearance:none;width:100%;display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;text-align:left;padding:12px 14px;border:0;background:transparent;color:#261b31;cursor:pointer}.smartBriefButton>span{width:32px;height:32px;border-radius:9px;background:#eee8ff;color:#5933c3;display:grid;place-items:center;font-weight:800}.smartBriefButton div{display:flex;flex-direction:column}.smartBriefButton b{font-size:.78rem}.smartBriefButton small{font-size:.67rem;color:#655b6d;margin-top:2px}.smartBriefButton em{font-style:normal;color:#5933c3;font-size:1.1rem}.smartBriefBody{border-top:1px solid #e4deeb;padding:14px;color:#403548}.smartBriefBody p{margin:0;font-size:.77rem;line-height:1.65;color:#403548}.smartBriefBody ul{margin:11px 0 0;padding-left:18px;color:#5b5263;font-size:.7rem}.smartBriefBody .aiMeta{margin-bottom:9px}.aiMeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#5e5567;font-size:.68rem}.providerPill{display:inline-flex;align-items:center;text-transform:uppercase;letter-spacing:.07em;font-size:.6rem;font-weight:800;padding:5px 8px;border-radius:999px;border:1px solid #d6cfdd;background:#f7f5f9;color:#403748}.providerPill.gemini{color:#3d39a0;background:#f0efff;border-color:#cfccfa}.providerPill.groq{color:#914514;background:#fff4ea;border-color:#f2cfb6}.providerPill.openrouter{color:#2d5b91;background:#edf6ff;border-color:#c8def3}.providerPill.deterministic{color:#4f4756;background:#f3f1f5}.aiProviderRow{display:flex;align-items:center;gap:8px;margin-bottom:14px}.aiProviderRow small{color:#62596a;font-size:.7rem}.aiStatus{width:8px;height:8px;border-radius:50%;background:#169764;box-shadow:0 0 0 4px #e8f8f1}.aiStatus.fallback{background:#d58a16;box-shadow:0 0 0 4px #fff5df}.aiThinking{display:flex;align-items:center;gap:9px;margin-top:12px;padding:10px;border-radius:10px;background:#f7f5f9;color:#5c5364;font-size:.72rem}.aiThinking i{width:7px;height:7px;border-radius:50%;background:#5b35c7;animation:aiPulse 1s ease-in-out infinite}.promptChips button{border:1px solid #d4ceda;background:#fff;color:#443a4d;border-radius:999px;padding:7px 10px;font-size:.7rem;cursor:pointer}.promptChips button:hover{border-color:#9e8ec8;background:#faf8ff}.miniSpinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;margin-right:7px;animation:spin .7s linear infinite}
+
+/* Developer dock reforge */
+body{padding-bottom:78px!important}.developerDock{height:78px!important;background:rgba(255,255,255,.985)!important;border-top:1px solid #d6d0dc!important;box-shadow:0 -8px 28px rgba(32,20,44,.055)!important}.developerDockInner{grid-template-columns:minmax(210px,260px) minmax(300px,1fr) 180px!important;gap:20px!important}.developerMark{width:38px!important;height:38px!important;font-size:.88rem!important}.developerSignature{gap:11px!important}.developerSignature div span{font-size:.65rem!important;color:#62596a!important;letter-spacing:.02em!important}.developerSignature strong{font-size:.82rem!important;color:#20152c!important;font-weight:700!important}.developerRotator{font-size:.78rem!important;color:#403548!important;height:28px!important}.developerMessage b{font-weight:750!important;color:#4c28ad!important}.developerSocials a{width:34px!important;height:34px!important;border-color:#cfc8d6!important;color:#413849!important;background:#fff!important}.developerSocials a:hover{background:#f2eef9!important;border-color:#a99cc2!important;color:#4f2ab6!important}
+
+@keyframes aiPulse{0%,100%{opacity:.4;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:1000px){.statusGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:780px){body{padding-bottom:70px!important}.developerDock{height:70px!important}.developerDockInner{grid-template-columns:1fr auto!important}.developerRotator{display:none!important}.developerSignature div{display:block!important}.developerSignature div span{display:block!important}.developerSignature strong{font-size:.75rem!important}.statusGrid{grid-template-columns:1fr}.adminHeaderActions{width:100%}.adminHeaderActions .ghost{flex:1}.smartBrief{margin-top:10px}}
+@media(max-width:430px){body{font-size:14px!important}.pageHeader h1{font-size:1.85rem!important}.developerDockInner{padding-inline:10px!important}.developerMark{width:34px!important;height:34px!important}.developerSignature div span{font-size:.57rem!important}.developerSignature strong{font-size:.68rem!important}.developerSocials a{width:31px!important;height:31px!important}}
+@media(prefers-reduced-motion:reduce){.aiThinking i,.miniSpinner{animation:none!important}}

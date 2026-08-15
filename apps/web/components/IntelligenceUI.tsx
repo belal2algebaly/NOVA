@@ -1,0 +1,6 @@
+import Link from 'next/link';
+
+export function ConfidenceBadge({value,label='Confidence'}:{value?:number|null;label?:string}){const n=Math.max(0,Math.min(100,Number(value||0)));const tone=n>=75?'high':n>=50?'medium':'low';return <span className={`confidenceBadge ${tone}`} title={`${label}: ${n}%`}><i/><b>{n}%</b><small>{label}</small></span>}
+export function Freshness({value}:{value?:string|null}){if(!value)return <span className="freshness unknown">Not scanned yet</span>;const age=Date.now()-new Date(value).getTime();const h=Math.floor(age/3_600_000);const text=h<1?'Updated recently':h<24?`Updated ${h}h ago`:`Updated ${Math.floor(h/24)}d ago`;const tone=h<24?'fresh':h<72?'aging':'stale';return <span className={`freshness ${tone}`}><i/>{text}</span>}
+export function NextAction({title,body,href,cta='Continue'}:{title:string;body:string;href:string;cta?:string}){return <article className="nextAction"><div><p className="eyebrow">NEXT BEST ACTION</p><h2>{title}</h2><p>{body}</p></div><Link className="primary" href={href}>{cta} →</Link></article>}
+export function QualityMeter({label,value,note}:{label:string;value:number;note:string}){const n=Math.max(0,Math.min(100,Math.round(value)));return <div className="qualityMeter"><div><span>{label}</span><b>{n}%</b></div><div className="qualityTrack"><i style={{width:`${n}%`}}/></div><small>{note}</small></div>}

@@ -1,3 +1,11 @@
+# NOVA 1.5 — System Intelligence + AI Everywhere
+
+This build adds a Super Admin Status Center, live integration/AI health diagnostics, detailed report export, OpenRouter Free fallback, contextual AI briefs across the project workspace, developer dock rework, and global contrast hardening.
+
+AI route: Gemini → Groq → OpenRouter Free → NOVA Evidence Engine.
+
+No new SQL migration is required for NOVA 1.5.
+
 # NOVA 1.0 — E-commerce Intelligence Platform
 
 NOVA has evolved from an extension-only CRO scanner into a web-first intelligence platform with a connected Chrome extension.
@@ -49,3 +57,16 @@ Optional: set `NEXT_PUBLIC_APP_URL=https://nova-eynk.vercel.app` in Vercel so ge
 
 This build includes a five-phase radical UI architecture pass: sectioned active navigation, sticky command canvas, redesigned data surfaces, mobile command dock, and reduced-motion-safe interaction polish. No new Supabase migration is required.
 
+
+
+## Search Reliability + Taxonomy V4
+- Progressive local-first discovery to reduce free-provider requests
+- Supabase-backed 24–48h search cache with stale fallback
+- SearXNG provider cooldown on 429/403 plus DuckDuckGo HTML fallback
+- Recent validated competitors are not recrawled for 24h
+- Verified taxonomy separates product categories from Sale/CTA/navigation labels
+- Run `infra/supabase/011_search_reliability_cache.sql` after migration 010
+
+
+## NOVA AI Layer V1
+Gemini primary + Groq fallback + NOVA deterministic fallback. See `docs/NOVA-AI-LAYER-V1.md`.

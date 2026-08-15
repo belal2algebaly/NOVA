@@ -4,12 +4,12 @@ export function DeveloperBar(){
    <div className="developerDockInner">
     <div className="developerSignature">
       <span className="developerMark">N</span>
-      <div><span>NOVA</span><strong>Built in public</strong></div>
+      <div><span>Developed by</span><strong>Belal Algebaly</strong></div>
     </div>
     <div className="developerRotator" aria-label="NOVA messages">
-      <span className="developerMessage"><b>Developed by</b> Belal Algebaly</span>
-      <span className="developerMessage"><b>Free to use</b> for a limited time</span>
-      <span className="developerMessage"><b>Built for sharper</b> e-commerce decisions</span>
+      <span className="developerMessage"><b>Developed by Belal Algebaly</b> · Built for e-commerce teams</span>
+      <span className="developerMessage"><b>Free to use for a limited time</b> · Explore the full NOVA intelligence stack</span>
+      <span className="developerMessage"><b>Built for sharper e-commerce decisions</b> · Evidence over guesswork</span>
     </div>
     <div className="developerSocials">
       <a href="https://www.linkedin.com/in/belal-algebaly-2ab015308/" target="_blank" rel="noreferrer" aria-label="Belal Algebaly on LinkedIn" title="LinkedIn">

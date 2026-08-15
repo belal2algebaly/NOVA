@@ -12,7 +12,7 @@ function normalizeUrl(value:string){
 export async function createProject(formData:FormData){
   const name=String(formData.get('name')||'').trim(); const storeName=String(formData.get('storeName')||'').trim();
   const market=String(formData.get('market')||'').trim(); const currency=String(formData.get('currency')||'').trim().toUpperCase();
-  let url:string; try{url=normalizeUrl(String(formData.get('url')||''));}catch(e){redirect('/projects/new?error='+encodeURIComponent(e instanceof Error?e.message:'Invalid URL'));}
+  let url=""; try{url=normalizeUrl(String(formData.get('url')||''));}catch(e){redirect('/projects/new?error='+encodeURIComponent(e instanceof Error?e.message:'Invalid URL'));}
   if(!name) redirect('/projects/new?error='+encodeURIComponent('Project name is required.'));
   const supabase=await createSupabaseServerClient(); const {data:{user}}=await supabase.auth.getUser(); if(!user) redirect('/login');
   const {data:workspace,error:wsError}=await supabase.from('workspaces').select('id').eq('owner_id',user.id).order('created_at',{ascending:true}).limit(1).maybeSingle();
